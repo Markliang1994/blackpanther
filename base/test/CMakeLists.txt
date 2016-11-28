@@ -1,0 +1,14 @@
+add_executable(mutex_test Mutex_test.cpp)
+target_link_libraries(mutex_test blackpanther_base)
+
+add_executable(thread_test Thread_test.cpp)
+target_link_libraries(thread_test blackpanther_base)
+
+add_executable(atomic_unittest Atomic_unittest.cpp)
+target_link_libraries(atomic_unittest blackpanther_base)
+
+add_executable(processinfo_test ProcessInfo_test.cpp)
+target_link_libraries(processinfo_test blackpanther_base)
+
+add_executable(threadpool_test ThreadPool_test.cpp)
+target_link_libraries(threadpool_test blackpanther_base)
