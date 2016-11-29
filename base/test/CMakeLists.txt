@@ -12,3 +12,9 @@ target_link_libraries(processinfo_test blackpanther_base)
 
 add_executable(threadpool_test ThreadPool_test.cpp)
 target_link_libraries(threadpool_test blackpanther_base)
+
+add_executable(blockingqueue_test BlockingQueue_test.cpp)
+target_link_libraries(blockingqueue_test blackpanther_base)
+
+add_executable(singleton_test Singleton_test.cpp)
+target_link_libraries(singleton_test blackpanther_base)

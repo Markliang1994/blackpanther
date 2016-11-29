@@ -6,7 +6,6 @@
 #define BLACKPANTHER_BASE_CURRENTTHREAD_H
 
 #include <stdint.h>
-#include <iostream>
 
 namespace blackpanther{
     namespace CurrentThread{

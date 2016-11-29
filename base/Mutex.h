@@ -7,8 +7,6 @@
 
 #include <blackpanther/base/CurrentThread.h>
 
-#include <iostream>
-
 #include <boost/noncopyable.hpp>
 
 #include <assert.h>

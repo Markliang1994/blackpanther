@@ -5,7 +5,7 @@
 #ifndef BLACKPANTHER_BASE_SINGLETON_H_H
 #define BLACKPANTHER_BASE_SINGLETON_H_H
 
-#include <boost/noncopyable.hpp>
+#include <blackpanther/base/noncopyable.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -23,9 +23,9 @@ namespace blackpanther{
     }
 
     template <typename T>
-    class Singleton : boost::noncopyable{
+    class Singleton : blackpanther::noncopyable{
     public:
-        static T instance(){
+        static T& instance(){
             pthread_once(&ponce_, &Singleton::init);
             assert(value_ != nullptr);
             return *value_;
