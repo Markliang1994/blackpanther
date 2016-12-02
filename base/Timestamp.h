@@ -1,0 +1,8 @@
+//
+// Created by mark on 16-12-1.
+//
+
+#ifndef BLACKPANTHER_TIMESTAMP_H
+#define BLACKPANTHER_TIMESTAMP_H
+
+#endif //BLACKPANTHER_TIMESTAMP_H

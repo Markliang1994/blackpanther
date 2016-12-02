@@ -1,0 +1,8 @@
+//
+// Created by mark on 16-12-1.
+//
+
+#ifndef BLACKPANTHER_LOGSTREAM_H
+#define BLACKPANTHER_LOGSTREAM_H
+
+#endif //BLACKPANTHER_LOGSTREAM_H
