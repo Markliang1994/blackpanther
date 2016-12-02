@@ -79,6 +79,9 @@ Logger::Impl::Impl(LogLevel level, int old_errno, const SourceFile &file, int li
     level_(level),
     line_(line),
     basename_(file){
+}
+
+Logger::Impl::~Impl(){
 
 }
 
@@ -93,6 +96,7 @@ void Logger::Impl::finish() {
 
 Logger::Logger(SourceFile file, int line)
     :impl_(INFO, 0, file, line){
+
 }
 
 Logger::Logger(SourceFile file, int line, LogLevel level, const char *func):

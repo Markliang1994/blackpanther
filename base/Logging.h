@@ -73,6 +73,7 @@ namespace blackpanther{
         public:
             typedef Logger::LogLevel LogLevel;
             Impl(LogLevel level, int old_errno, const SourceFile &file, int line);
+            ~Impl();
             void formatTime();
             void finish();
 
@@ -98,7 +99,7 @@ namespace blackpanther{
         blackpanther::Logger(__FILE__, __LINE__, blackpanther::Logger::DEBUG, __func__).stream()
 
 #define LOG_INFO if(blackpanther::Logger::logLevel() <= blackpanther::Logger::INFO) \
-        blackpanther::Logger(__FILE__, __LINE__).stream();
+        blackpanther::Logger(__FILE__, __LINE__).stream()
 
 #define LOG_WARN blackpanther::Logger(__FILE__, __LINE__, blackpanther::Logger::WARN).stream();
 #define LOG_ERROR blackpanther::Logger(__FILE__, __LINE__, blackpanther::Logger::ERROR).stream();
