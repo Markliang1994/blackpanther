@@ -58,7 +58,7 @@ namespace blackpanther{
             size_t write(const char *logline, size_t len);
 
             FILE *fp_;
-            char buf[64*1024];
+            char buffer_[64*1024];
             size_t writtenBytes_;
         };
     }
