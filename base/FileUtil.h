@@ -16,7 +16,7 @@ namespace blackpanther{
             ~ReadSmallFile();
 
             template <typename T>
-            int readToStirng(int maxSize,
+            int readToString(int maxSize,
                              T *content,
                              int64_t *fileSize,
                              int64_t *modifyTime,
@@ -34,14 +34,14 @@ namespace blackpanther{
         };
 
         template <typename T>
-        int readFile(const std::string &filename,
+        int readFile(std::string &filename,
                     int maxSize,
                     T *content,
                     int64_t *fileSize = nullptr,
                     int64_t *modifyTime = nullptr,
                     int64_t *createTime = nullptr){
             ReadSmallFile file(filename);
-            return file.readToStirng(maxSize, content, fileSize, modifyTime, createTime);
+            return file.readToString(maxSize, content, fileSize, modifyTime, createTime);
         }
 
         // Watch out! not thread safe.
