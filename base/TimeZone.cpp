@@ -2,6 +2,7 @@
 // Created by mark on 16-12-1.
 //
 #include <blackpanther/base/TimeZone.h>
+#include <blackpanther/base/Date.h>
 
 #include <algorithm>
 
@@ -247,8 +248,6 @@ time_t TimeZone::fromLocalTime(const struct tm &localTm) const {
 
 struct tm TimeZone::toUtcTime(time_t secondsSinceEpoch, bool yday) {
     struct tm utc;
-    //TODO
-    /*
     bzero(&utc, sizeof(utc));
     utc.tm_zone = "GMT";
     int seconds = static_cast<int>(secondsSinceEpoch%kSecondsPerDay);
@@ -262,10 +261,15 @@ struct tm TimeZone::toUtcTime(time_t secondsSinceEpoch, bool yday) {
     Date date(days + Date::kJulianDayOf1970_01_01);
     Date::YearMonthDay ymd = date.yearMonthDay();
 
-    if(yday){
+    utc.tm_year = ymd.year - 1900;
+    utc.tm_mon = ymd.month - 1;
+    utc.tm_mday = ymd.day;
+    utc.tm_wday = date.weekDay();
 
+    if(yday){
+        Date startOfYear(ymd.year, 1, 1);
+        utc.tm_year = date.julianDayNumber() - startOfYear.julianDayNumber();
     }
-     */
     return utc;
 }
 
@@ -274,6 +278,8 @@ time_t TimeZone::fromUtcTime(const struct tm &utc) {
 }
 
 time_t TimeZone::fromUtcTime(int year, int month, int day, int hour, int minute, int seconds) {
-    //TODO
-    return 0;
+    Date date(year, month, day);
+    int secondsInDay = hour*3600 + minute*60 + seconds;
+    time_t days = date.julianDayNumber() - Date::kJulianDayOf1970_01_01;
+    return days*kSecondsPerDay+secondsInDay;
 }
