@@ -1,0 +1,8 @@
+//
+// Created by mark on 16-12-3.
+//
+
+#ifndef BLACKPANTHER_BASE_FILEUTIL_H
+#define BLACKPANTHER_BASE_FILEUTIL_H
+
+#endif //BLACKPANTHER_FILEUTIL_H
