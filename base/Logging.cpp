@@ -86,9 +86,35 @@ Logger::Impl::~Impl(){
 }
 
 void Logger::Impl::formatTime() {
-    //TODO
+    int64_t microSecondsSinceEpoch_ = time_.microSecondsSinceEpoch();
+    time_t seconds = static_cast<time_t>(microSecondsSinceEpoch_ / Timestamp::kMicroSecondsPerSecond);
+    int microseconds = static_cast<int>(microSecondsSinceEpoch_ % Timestamp::kMicroSecondsPerSecond);
+    if(seconds != t_lastSecond){
+        t_lastSecond = seconds;
+        struct tm tm_time;
+        if(g_logTimeZone.valid())
+            tm_time = g_logTimeZone.toLocalTime(seconds);
+        else
+            ::gmtime_r(&seconds, &tm_time);
 
+        int len =snprintf(t_time, sizeof(t_time), "%4d%02d%02d %02d:%02d:%02d",
+                            tm_time.tm_year + 1900, tm_time.tm_mon + 1, tm_time.tm_mday,
+                            tm_time.tm_hour, tm_time.tm_min, tm_time.tm_sec);
+        assert(len == 17);
+    }
+
+    if(g_logTimeZone.valid()){
+        fmt us("%.06d ", microseconds);
+        assert(us.length() == 8);
+        stream_ << T(t_time, 17) << T(us.data(), 8);
+    }
+    else{
+        fmt us("%.06dZ ", microseconds);
+        assert(us.length() == 9);
+        stream_ << T(t_time, 17) << T(us.data(), 9);
+    }
 }
+
 
 void Logger::Impl::finish() {
     //TODO
