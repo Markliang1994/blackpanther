@@ -12,7 +12,7 @@ namespace blackpanther{
     __thread char t_time[32];
     __thread time_t t_lastSecond;
 
-    const char *sterror_tl(int savedErrno){
+    const char *strerror_tl(int savedErrno){
         return strerror_r(savedErrno, t_errnobuf, sizeof(t_errnobuf));
     }
 
@@ -125,7 +125,7 @@ void Logger::Impl::formatTime() {
 
 
 void Logger::Impl::finish() {
-    //TODO
+    stream_ << " - " << basename_ << ':' << line_ << '\n';
 }
 
 Logger::Logger(SourceFile file, int line)
@@ -140,7 +140,6 @@ Logger::Logger(SourceFile file, int line, LogLevel level, const char *func):
 
 Logger::Logger(SourceFile file, int line, LogLevel level):
     impl_(level, 0, file, line){
-
 }
 
 Logger::Logger(SourceFile file, int line, bool toAbort)
@@ -149,7 +148,13 @@ Logger::Logger(SourceFile file, int line, bool toAbort)
 }
 
 Logger::~Logger() {
-    //TODO
+    impl_.finish();
+    const LogStream::Buffer &buf(stream().buffer());
+    g_output(buf.data(), buf.length());
+    if(impl_.level_ == FATAL){
+        g_flush();
+        abort();
+    }
 }
 
 void Logger::setLogLevel(Logger::LogLevel level) {
