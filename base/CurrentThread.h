@@ -27,6 +27,10 @@ namespace blackpanther{
             return t_tidStringLength;
         }
 
+        inline const char *tidString(){
+            return t_tidString;
+        }
+
         inline const char* name(){
             return t_threadName;
         }

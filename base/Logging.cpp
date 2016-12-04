@@ -79,6 +79,14 @@ Logger::Impl::Impl(LogLevel level, int old_errno, const SourceFile &file, int li
     level_(level),
     line_(line),
     basename_(file){
+    formatTime();
+    CurrentThread::tid();
+    stream_ << T(CurrentThread::tidString(), CurrentThread::tidStringLength());
+    stream_ << T(LogLevelName[level], 6);
+    if (old_errno != 0)
+    {
+        stream_ << strerror_tl(old_errno) << " (errno=" << old_errno << ") ";
+    }
 }
 
 Logger::Impl::~Impl(){

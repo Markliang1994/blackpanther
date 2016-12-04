@@ -103,3 +103,7 @@ LogStream& LogStream::operator <<(int v){
     return *this;
 }
 
+LogStream& LogStream::operator<<(unsigned int) {
+    return *this;
+}
+
