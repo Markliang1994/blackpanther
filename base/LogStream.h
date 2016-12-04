@@ -75,6 +75,7 @@ namespace detail{
         self& operator <<(int);
         self& operator <<(unsigned int);
         self& operator <<(long);
+        self& operator <<(long long);
         self& operator <<(unsigned long);
         self& operator <<(unsigned long long);
 
