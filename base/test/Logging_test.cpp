@@ -48,7 +48,7 @@ void bench(const char *type){
 void logInThread(){
     LOG_INFO << "logInThread.";
 }
-int main(){
+int main() {
     getppid();
 
     blackpanther::ThreadPool pool("pool");
@@ -73,11 +73,51 @@ int main(){
     sleep(1);
     bench("nop");
 
-    char buffer[64*1024];
+    char buffer[64 * 1024];
 
     g_file = fopen("/dev/null", "w");
     setbuffer(g_file, buffer, sizeof(buffer));
     bench("/dev/null");
     fclose(g_file);
+
+    g_file = fopen("/tmp/log", "w");
+    setbuffer(g_file, buffer, sizeof(buffer));
+    bench("/tmp/log");
+    fclose(g_file);
+
+    g_file = nullptr;
+    g_LogFile.reset(new blackpanther::LogFile("test_log_st", 500*1000*1000, false));
+    bench("test_log_st");
+
+    g_LogFile.reset(new blackpanther::LogFile("test_log_mt", 500*1000*1000, true));
+    bench("test_log_mt");
+    g_LogFile.reset();
+    /*
+
+    {
+        g_file = stdout;
+        sleep(1);
+        blackpanther::TimeZone beijing(8 * 3600, "CST");
+        blackpanther::Logger::setTimeZone(beijing);
+        LOG_TRACE << "trace CST";
+        LOG_DEBUG << "debug CST";
+        LOG_INFO << "info CST";
+        LOG_WARN << "warn CST";
+        LOG_ERROR << "error CST";
+
+
+        sleep(1);
+        blackpanther::TimeZone newyork("usr/share/zoneinfo/America/New_York");
+        blackpanther::Logger::setTimeZone(newyork);
+        LOG_TRACE << "trace NYT";
+        LOG_DEBUG << "debug NYT";
+        LOG_INFO << "info NYT";
+        LOG_WARN << "warn NYT";
+        LOG_ERROR << "error NYT";
+        g_file = nullptr;
+    }
+     */
+    bench("timezone nop");
+
     return 0;
 }
