@@ -77,8 +77,11 @@ void FixedBuffer<SIZE>::cookieEnd() {
 }
 
 template <typename T>
-void LogStream::formatInteger(T) {
-
+void LogStream::formatInteger(T v) {
+    if(buffer_.avail() >= kMaxNumericSize){
+        size_t len = convert(buffer_.current(), v);
+        buffer_.add(len);
+    }
 }
 
 void LogStream::staticCheck() {
@@ -107,3 +110,24 @@ LogStream& LogStream::operator<<(unsigned int) {
     return *this;
 }
 
+template <typename  T>
+fmt::fmt(const char *f, T val) {
+    static_assert(std::is_arithmetic<T>::value == true, "Muse be a arithmetic type.");
+
+    length_ = snprintf(buf_, sizeof(buf_), f, val);
+    assert(static_cast<size_t>(length_) < sizeof(buf_));
+}
+
+template fmt::fmt(const char* f, char);
+
+template fmt::fmt(const char* f, short);
+template fmt::fmt(const char* f, unsigned short);
+template fmt::fmt(const char* f, int);
+template fmt::fmt(const char* f, unsigned int);
+template fmt::fmt(const char* f, long);
+template fmt::fmt(const char* f, unsigned long);
+template fmt::fmt(const char* f, long long);
+template fmt::fmt(const char* f, unsigned long long);
+
+template fmt::fmt(const char* f, float);
+template fmt::fmt(const char* f, double);

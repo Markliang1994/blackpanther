@@ -90,7 +90,6 @@ Logger::Impl::Impl(LogLevel level, int old_errno, const SourceFile &file, int li
 }
 
 Logger::Impl::~Impl(){
-
 }
 
 void Logger::Impl::formatTime() {
@@ -125,7 +124,7 @@ void Logger::Impl::formatTime() {
 
 
 void Logger::Impl::finish() {
-    stream_ << " - " << basename_ << ':' << line_ << '\n';
+    stream_ << " - " << basename_.data_ << ':' << line_ << '\n';
 }
 
 Logger::Logger(SourceFile file, int line)
