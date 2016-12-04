@@ -111,6 +111,24 @@ LogStream& LogStream::operator<<(unsigned int v) {
     return *this;
 }
 
+LogStream& LogStream::operator<<(long v) {
+    formatInteger(v);
+    return *this;
+}
+
+LogStream& LogStream::operator <<(unsigned long v){
+    formatInteger(v);
+    return *this;
+}
+
+LogStream& LogStream::operator <<(long long v){
+    formatInteger(v);
+    return *this;
+}
+LogStream& LogStream::operator <<(unsigned long long v){
+    formatInteger(v);
+    return *this;
+}
 template <typename  T>
 fmt::fmt(const char *f, T val) {
     static_assert(std::is_arithmetic<T>::value == true, "Muse be a arithmetic type.");
