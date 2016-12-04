@@ -52,7 +52,7 @@ namespace blackpanther{
 
             void append(const char *logline, size_t len);
             void flush();
-            ssize_t writtenBytes(){ return writtenBytes_; }
+            size_t writtenBytes(){ return writtenBytes_; }
 
         private:
             size_t write(const char *logline, size_t len);

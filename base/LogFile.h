@@ -24,10 +24,10 @@ namespace blackpanther{
 
         void append(const char *logine, int len);
         void flush();
-        void rollFile();
+        bool rollFile();
 
     private:
-        void apeend_unlocked(const char *logline, int len);
+        void append_unlocked(const char *logline, int len);
 
         static std::string getLogFileName(const std::string &basename, time_t *now);
 
@@ -43,7 +43,8 @@ namespace blackpanther{
         time_t lastRoll_;
         time_t lastFlush_;
         std::unique_ptr<FileUtil::AppendFile> file_;
+
+        const static int kRollPerSeconds_ = 60*60*24;
     };
-}
 }
 #endif //BLACKPANTHER_LOGFILE_H
