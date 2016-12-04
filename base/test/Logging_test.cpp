@@ -19,6 +19,8 @@ using namespace blackpanther;
 
 int main(){
 //    g_LogFile.reset(new LogFile(__FILE__, 64*1024*1024));
-
+    for(int x = 0; x < 100; x++){
+        LOG_INFO << "abcdefghijklmnopqrstuvwxyz";
+    }
     return 0;
 }

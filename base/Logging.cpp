@@ -28,12 +28,12 @@ namespace blackpanther{
     Logger::LogLevel g_logLevel = initLogLevel();
 
     const char *LogLevelName[Logger::NUM_LOG_LEVELS] ={
-        "TRACE",
-        "DEBUG",
-        "INFO",
-        "WARN",
-        "ERROR",
-        "FATAL"
+        "TRACE ",
+        "DEBUG ",
+        "INFO  ",
+        "WARN  ",
+        "ERROR ",
+        "FATAL "
     };
 
     class T{
@@ -112,12 +112,12 @@ void Logger::Impl::formatTime() {
     }
 
     if(g_logTimeZone.valid()){
-        fmt us("%.06d ", microseconds);
+        fmt us(".%06d ", microseconds);
         assert(us.length() == 8);
         stream_ << T(t_time, 17) << T(us.data(), 8);
     }
     else{
-        fmt us("%.06dZ ", microseconds);
+        fmt us(".%06dZ ", microseconds);
         assert(us.length() == 9);
         stream_ << T(t_time, 17) << T(us.data(), 9);
     }
