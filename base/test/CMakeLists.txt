@@ -18,3 +18,15 @@ target_link_libraries(blockingqueue_test blackpanther_base)
 
 add_executable(singleton_test Singleton_test.cpp)
 target_link_libraries(singleton_test blackpanther_base)
+
+add_executable(exception_test Exception_test.cpp)
+target_link_libraries(exception_test blackpanther_base)
+
+add_executable(logging_test Logging_test.cpp)
+target_link_libraries(logging_test blackpanther_base)
+
+add_executable(date_unittest Date_unittest.cpp)
+target_link_libraries(date_unittest blackpanther_base)
+
+add_executable(logstream_test LogStream_test.cpp)
+target_link_libraries(logstream_test blackpanther_base)
