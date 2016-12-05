@@ -92,7 +92,6 @@ int main() {
     g_LogFile.reset(new blackpanther::LogFile("test_log_mt", 500*1000*1000, true));
     bench("test_log_mt");
     g_LogFile.reset();
-    /*
 
     {
         g_file = stdout;
@@ -105,10 +104,9 @@ int main() {
         LOG_WARN << "warn CST";
         LOG_ERROR << "error CST";
 
-
         sleep(1);
-        blackpanther::TimeZone newyork("usr/share/zoneinfo/America/New_York");
-        blackpanther::Logger::setTimeZone(newyork);
+        blackpanther::TimeZone chicago("/usr/share/zoneinfo/America/New_York");
+        blackpanther::Logger::setTimeZone(chicago);
         LOG_TRACE << "trace NYT";
         LOG_DEBUG << "debug NYT";
         LOG_INFO << "info NYT";
@@ -116,8 +114,6 @@ int main() {
         LOG_ERROR << "error NYT";
         g_file = nullptr;
     }
-     */
     bench("timezone nop");
-
     return 0;
 }
