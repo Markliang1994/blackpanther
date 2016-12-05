@@ -40,7 +40,7 @@ void ThreadPool::start(int numThreads){
     }
 
     if(numThreads == 0 && threadInitCallback_)
-        threadInitCallback_;
+        threadInitCallback_();
 }
 
 void ThreadPool::stop(){
@@ -69,7 +69,6 @@ void ThreadPool::run(const Task &task){
         while(isFull()){
             notFull_.wait();
         }
-        std::cout << "liangsc" << std::endl;
         assert(!isFull());
 
         queue_.push_back(task);
