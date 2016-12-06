@@ -67,6 +67,7 @@ namespace detail{
         typedef detail::FixedBuffer<detail::kSmallBuffer> Buffer;
 
         self& operator <<(bool v){
+            buffer_.append(v? "1" : "0", 1);
             return *this;
         }
 

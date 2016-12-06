@@ -51,8 +51,7 @@ namespace blackpanther{
             int arrbIdx;
 
             Localtime(time_t offset, bool dst, bool arrb):
-                    gmtOffset(offset), isDst(dst), arrbIdx(arrb){
-            }
+                    gmtOffset(offset), isDst(dst), arrbIdx(arrb){ }
         };
 
         inline void fillHMS(unsigned seconds, struct tm *utc){
@@ -80,8 +79,8 @@ namespace blackpanther{
         class File : noncopyable{
         public:
             File(const char *file):
-                    fp_(::fopen(file, "rb")){
-            }
+                    fp_(::fopen(file, "rb")){ }
+
             ~File(){
                 if(fp_)
                     ::fclose(fp_);
@@ -130,24 +129,23 @@ namespace blackpanther{
                     int32_t timecnt = f.readInt32();
                     int32_t typecnt = f.readInt32();
                     int32_t charcnt = f.readInt32();
-
                     vector<int32_t> trans;
                     vector<int> localtimes;
                     trans.reserve(timecnt);
 
-                    for(int i = 0; i < timecnt; ++i)
+                    for(int i = 0; i < timecnt; ++i) {
                         trans.push_back(f.readInt32());
+                    }
 
                     for(int i = 0; i < timecnt; ++i){
                         uint8_t local = f.readUInt8();
+                        printf("local:%u\n", local);
                         localtimes.push_back(local);
                     }
-
                     for(int i = 0; i < typecnt; ++i){
                         int32_t gmtoff = f.readInt32();
                         uint8_t isdst = f.readUInt8();
                         uint8_t abbrind = f.readUInt8();
-
                         data->localtimes.push_back(Localtime(gmtoff, isdst, abbrind));
                     }
 
@@ -173,23 +171,32 @@ namespace blackpanther{
             return true;
         }
         const Localtime* findLocaltime(const TimeZone::Data &data, Transition sentry, Comp comp){
-            const Localtime *local = nullptr;
+            const Localtime* local = NULL;
 
-            if(data.transitions.empty() || comp(sentry, data.transitions.front())){
+            if (data.transitions.empty() || comp(sentry, data.transitions.front()))
+            {
+                // FIXME: should be first non dst time zone
                 local = &data.localtimes.front();
             }
-            else{
-                vector<Transition>::const_iterator transI = lower_bound(data.transitions.begin(), data.transitions.end(),
-                                                                sentry,
-                                                                comp);
-                if(transI != data.transitions.end()){
-                    if(!comp.equal(sentry, *transI)){
+            else
+            {
+                vector<Transition>::const_iterator transI = lower_bound(data.transitions.begin(),
+                                                                        data.transitions.end(),
+                                                                        sentry,
+                                                                        comp);
+
+                if (transI != data.transitions.end())
+                {
+                    if (!comp.equal(sentry, *transI))
+                    {
                         assert(transI != data.transitions.begin());
                         --transI;
                     }
-                    local = &data.localtimes[data.transitions.back().localtimeIdx];
+                    local = &data.localtimes[transI->localtimeIdx];
                 }
-                else{
+                else
+                {
+                    // FIXME: use TZ-env
                     local = &data.localtimes[data.transitions.back().localtimeIdx];
                 }
             }
