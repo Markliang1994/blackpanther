@@ -38,7 +38,6 @@ namespace blackpanther{
             return p -buf;
         }
 
-        template <typename T>
         size_t convertHex(char buf[], uintptr_t value){
             uintptr_t  i = value;
             char *p = buf;
@@ -129,6 +128,15 @@ LogStream& LogStream::operator <<(unsigned long long v){
     formatInteger(v);
     return *this;
 }
+
+LogStream& LogStream::operator <<(double v){
+    if(buffer_.avail() > kMaxNumericSize){
+        int len = snprintf(buffer_.current(), kMaxNumericSize, "%.12g", v);
+        buffer_.add(len);
+    }
+    return *this;
+}
+
 template <typename  T>
 fmt::fmt(const char *f, T val) {
     static_assert(std::is_arithmetic<T>::value == true, "Muse be a arithmetic type.");
