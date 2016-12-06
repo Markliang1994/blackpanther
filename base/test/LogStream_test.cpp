@@ -108,3 +108,108 @@ BOOST_AUTO_TEST_CASE(testLogStreamIntegerLimits){
     BOOST_CHECK_EQUAL(buf.toString(), std::string("000"));
 }
 
+BOOST_AUTO_TEST_CASE(testLogStreamFloats){
+    blackpanther::LogStream os;
+    const blackpanther::LogStream::Buffer &buf = os.buffer();
+
+    os << 0.0;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0"));
+    os.resetBuffer();
+
+    os << 1.0;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("1"));
+    os.resetBuffer();
+
+    double a = 0.1;
+    os << a;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0.1"));
+    os.resetBuffer();
+
+    double b = 0.05;
+    os << b;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0.05"));
+    os.resetBuffer();
+
+    double c = 0.15;
+    os << c;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0.15"));
+    os.resetBuffer();
+
+    os << a + b;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0.15"));
+    os.resetBuffer();
+
+    BOOST_CHECK(a+b != c);
+
+    os << 1.23456789;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("1.23456789"));
+    os.resetBuffer();
+
+    os << 1.234567;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("1.234567"));
+    os.resetBuffer();
+
+    os << -123.456;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("-123.456"));
+    os.resetBuffer();
+}
+
+BOOST_AUTO_TEST_CASE(testLogStreamVoid){
+    blackpanther::LogStream os;
+    const blackpanther::LogStream::Buffer &buf = os.buffer();
+
+    os << static_cast<void*>(0);
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0x0"));
+    os.resetBuffer();
+
+    os << reinterpret_cast<void*>(8888);
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("0x22B8"));
+    os.resetBuffer();
+}
+
+BOOST_AUTO_TEST_CASE(testLogStreamStrings){
+    blackpanther::LogStream os;
+    const blackpanther::LogStream::Buffer &buf = os.buffer();
+
+    os << "Luke Skywalker";
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("Luke Skywalker"));
+
+    std::string jedi = " is a jedi.";
+    os << jedi;
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("Luke Skywalker is a jedi."));
+}
+
+BOOST_AUTO_TEST_CASE(testLogStreamFmts){
+    blackpanther::LogStream os;
+    const blackpanther::LogStream::Buffer &buf = os.buffer();
+
+    os << blackpanther::fmt("%4d", 1);
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("   1"));
+    os.resetBuffer();
+
+    os << blackpanther::fmt("%4.2f", 1.2);
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("1.20"));
+    os.resetBuffer();
+
+    os << blackpanther::fmt("%4.2f", 1.2) << blackpanther::fmt("%4d", 423);
+    BOOST_CHECK_EQUAL(buf.toString(), std::string("1.20 423"));
+    os.resetBuffer();
+}
+
+BOOST_AUTO_TEST_CASE(testLogStreamLong){
+    blackpanther::LogStream os;
+    const blackpanther::LogStream::Buffer& buf = os.buffer();
+    for(int i = 0; i < 399; ++i){
+        os << "123456789 ";
+        BOOST_CHECK_EQUAL(buf.length(), 10*(i+1));
+        BOOST_CHECK_EQUAL(buf.avail(), 4000 - 10*(i+1));
+    }
+
+    os << "abcdefghi ";
+    BOOST_CHECK_EQUAL(buf.length(), 3990);
+    BOOST_CHECK_EQUAL(buf.avail(), 10);
+
+    os << "abcdefghi";
+    BOOST_CHECK_EQUAL(buf.length(), 3999);
+    BOOST_CHECK_EQUAL(buf.avail(), 1);
+}
