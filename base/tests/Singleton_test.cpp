@@ -43,7 +43,7 @@ void threadFunc(){
     blackpanther::Singleton<Test>::instance().setName("only one, changed.");
 }
 
-int main(int argc, char **argv){
+int main(){
     blackpanther::Singleton<Test>::instance().setName("only one.");
     blackpanther::Thread t1(threadFunc);
     t1.start();

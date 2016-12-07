@@ -79,14 +79,14 @@ void testMove(){
     printf("took %d\n", *y);
 }
 
-int main(int argc, char **argv){
+int main(){
     printf("pid=%d, tid=%d\n", ::getpid(), blackpanther::CurrentThread::tid());
     Test t(5);
 
     t.run(100);
     t.joinAll();
 
-    //testMove();
+    testMove();
 
     printf("numbers of created threads %d\n", blackpanther::Thread::numCreated());
     return 0;

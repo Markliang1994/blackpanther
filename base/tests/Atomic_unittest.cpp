@@ -11,7 +11,7 @@
 using namespace blackpanther;
 AtomicInt32 g_AtomicInt32;
 
-int main(int argc, char **argv){
+int main(){
     assert(g_AtomicInt32.get() == 0);
     assert(g_AtomicInt32.getAndAdd(5) == 0);
     assert(g_AtomicInt32.get() == 5);

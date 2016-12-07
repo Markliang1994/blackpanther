@@ -28,8 +28,8 @@ target_link_libraries(logging_test blackpanther_base)
 add_executable(date_unittest Date_unittest.cpp)
 target_link_libraries(date_unittest blackpanther_base)
 
-add_executable(logstream_test LogStream_test.cpp)
-target_link_libraries(logstream_test blackpanther_base)
+#add_executable(logstream_test LogStream_test.cpp)
+#target_link_libraries(logstream_test blackpanther_base)
 
-add_executable(logfile_test LogStream_test.cpp)
-target_link_libraries(logfile_test LogFile_test.cpp)
+add_executable(logfile_test LogFile_test.cpp)
+target_link_libraries(logfile_test blackpanther_base)

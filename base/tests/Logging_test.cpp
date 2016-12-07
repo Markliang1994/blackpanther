@@ -105,8 +105,8 @@ int main() {
         LOG_ERROR << "error CST";
 
         sleep(1);
-        blackpanther::TimeZone chicago("/usr/share/zoneinfo/America/New_York");
-        blackpanther::Logger::setTimeZone(chicago);
+        blackpanther::TimeZone nyt("/usr/share/zoneinfo/America/New_York");
+        blackpanther::Logger::setTimeZone(nyt);
         LOG_TRACE << "trace NYT";
         LOG_DEBUG << "debug NYT";
         LOG_INFO << "info NYT";

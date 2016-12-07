@@ -39,7 +39,7 @@ private:
     double  x_;
 };
 
-int main(int argc, char **argv){
+int main(){
     Thread t1(threadFunc);
 
     t1.start();

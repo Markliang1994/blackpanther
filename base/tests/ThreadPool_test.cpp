@@ -39,7 +39,7 @@ void test(int maxSize){
     usleep(100*1000);
 }
 
-int main(int argc, char **argv){
+int main(){
     test(0);
     test(1);
     test(5);
