@@ -22,8 +22,10 @@ set(CXX_FLAGS
 string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
 set(SOURCE_FILES base/Mutex.h base/Condition.h base/condition.cpp base/CurrentThread.h base/Singleton.h base/ProcessInfo.h base/Thread.h base/Thread.cpp base/Atomic.h base/ProcessInfo.cpp base/Exception.h base/Exception.cpp base/copyable.h base/noncopyable.h base/ThreadPool.h base/ThreadPool.cpp base/BlockingQueue.h base/CountDownLatch.cpp base/CountDownLatch.h
-        base/Logging.h base/LogStream.h base/Timestamp.h base/LogStream.cpp base/Logging.cpp base/Timestamp.cpp base/TimeZone.h base/TimeZone.cpp)
+        base/Logging.h base/LogStream.h base/Timestamp.h base/LogStream.cpp base/Logging.cpp base/Timestamp.cpp base/TimeZone.h base/TimeZone.cpp base/Date.h base/Date.cpp base/LogFile.cpp base/LogFile.h base/FileUtil.cpp base/FileUtil.h)
+set(LIBRARY_OUTPUT_PATH  /home/mark/Documents/workspace/blackpanther)
 add_library(blackpanther_base ${SOURCE_FILES})
 
-#add_executable(blackpanther ${SOURCE_FILES})
-add_subdirectory(base/test)
+add_subdirectory(base/tests)
+add_subdirectory(net)
+add_subdirectory(net/tests)
