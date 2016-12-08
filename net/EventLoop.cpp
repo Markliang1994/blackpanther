@@ -3,6 +3,7 @@
 //
 
 #include <blackpanther/net/EventLoop.h>
+#include <blackpanther/base/Logging.h>
 
 namespace blackpanther{
     namespace net{
@@ -11,16 +12,22 @@ namespace blackpanther{
             printf("thread is:%d\n", threadId_);
         }
 
-        void EventLoop::assertInLoopThread() {
-            assert(threadId_ == CurrentThread::t_cachedTid);
-        }
-
         void EventLoop::loop(){
-            assertInLoopThread();
+            if(!isInLoopThread())
+                abortNotInLoopThread();
         }
 
         EventLoop::~EventLoop() {
 
         }
     }
+}
+
+using namespace blackpanther;
+using namespace blackpanther::net;
+
+void EventLoop::abortNotInLoopThread() {
+    LOG_FATAL << "EventLoop::abortNotInLoopThread - EventLoop " << this
+                                                                << " was created in thread " << threadId_
+                                                                                             << ", But current thread id is: " << CurrentThread::tid();
 }
