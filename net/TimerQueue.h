@@ -44,7 +44,7 @@ namespace blackpanther{
             void handleRead();
 
             std::vector<Entry> getExpired(Timestamp now);
-            void reset(const std::vector<Entry&> expired, Timestamp now);
+            void reset(const std::vector<Entry> &expired, Timestamp now);
 
             bool insert(Timer *timer);
 
