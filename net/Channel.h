@@ -41,7 +41,7 @@ namespace blackpanther{
             int fd() const { return fd_; }
             int events() const { return events_; }
             void setRevents(int revt) { revents_ = revt; }
-            bool isNoneEvents() const { return events_ == kNoneEvent; }
+            bool isNoneEvent() const { return events_ == kNoneEvent; }
 
             void enableReading() { events_ |= kReadEvent; update(); }
             void disableReading() { events_ &= ~kReadEvent; update(); }

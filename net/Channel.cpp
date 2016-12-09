@@ -4,6 +4,7 @@
 #include <blackpanther/base/Logging.h>
 #include <blackpanther/net/Channel.h>
 #include <blackpanther/net/EventLoop.h>
+#include <blackpanther/net/Poller.h>
 
 #include <sstream>
 
@@ -40,7 +41,7 @@ void Channel::update(){
 }
 
 void Channel::remove(){
-    assert(isNoneEvents());
+    assert(isNoneEvent());
     addedToLoop_ = false;
     loop_->removeChannel(this);
 }

@@ -7,14 +7,16 @@
 
 #include <functional>
 #include <vector>
-
+#include <memory>
 #include <boost/any.hpp>
 
 #include <blackpanther/base/Mutex.h>
 #include <blackpanther/base/CurrentThread.h>
 #include <blackpanther/base/Timestamp.h>
 #include <blackpanther/base/noncopyable.h>
-#include <bits/unique_ptr.h>
+
+#include <blackpanther/net/TimerId.h>
+#include <blackpanther/net/Callbacks.h>
 
 namespace blackpanther{
     namespace net{
@@ -38,6 +40,23 @@ namespace blackpanther{
              */
             void quit();
 
+
+            Timestamp pollReturnTime() const { return pollReturnTime_; }
+
+            int64_t iteration() const { return iteration_; }
+
+
+            void runInLoop(const Functor &cb);
+
+            void queueInLoop(const Functor &cb);
+
+            size_t queueSize() const;
+
+            TimerId runAt(const Timestamp &time, const TimerCallback &cb);
+
+            TimerId runAfter(double delay, const TimerCallback &cb);
+
+            TimerId runEvery(double interval, const TimerCallback &&cb);
             // Interval
             void wakeup();
             void updateChannel(Channel *channel);
@@ -49,8 +68,18 @@ namespace blackpanther{
                     abortNotInLoopThread();
             }
             bool isInLoopThread() const { return threadId_ == CurrentThread::tid(); }
+
+            void setContext(const boost::any &context){
+                context_ = context;
+            }
+
+            static EventLoop* getEventLoopOfCurrentThread();
         private:
             void abortNotInLoopThread();
+            void handleRead();
+            void doPendingFunctors();
+
+            void printActiveChannels() const ; // For Debug
 
             typedef std::vector<Channel*> ChannelList;
 
@@ -58,7 +87,7 @@ namespace blackpanther{
             bool quit_;
             bool eventHandling_;
             bool callingPendingFunctors_;
-            int64_t  iteration;
+            int64_t  iteration_;
             const pid_t threadId_;
             Timestamp pollReturnTime_;
             std::unique_ptr<Poller> poller_;
