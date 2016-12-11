@@ -1,14 +1,16 @@
 //
 // Created by mark on 16-12-8.
 //
+#ifndef __STDC_LIMIT_MACROS
+#define __STDC_LIMIT_MACROS
+#endif
 
 #include <blackpanther/net/TimerQueue.h>
 
 #include <blackpanther/base/Logging.h>
 #include <blackpanther/net/EventLoop.h>
-#include <blackpanther/net/TimerId.h>
 #include <blackpanther/net/Timer.h>
-#include <functional>
+#include <blackpanther/net/TimerId.h>
 
 #include <sys/timerfd.h>
 
@@ -51,7 +53,7 @@ namespace blackpanther{
                 bzero(&newValue, sizeof(newValue));
                 bzero(&oldValue, sizeof(oldValue));
                 newValue.it_value = howmuchTimeFromNow(expiration);
-                int ret = ::timer_settime(timerfd, 0, &newValue, &oldValue);
+                int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
                 if(ret){
                     LOG_SYSERR << "timerfd_settime()";
                 }
@@ -94,12 +96,20 @@ TimerId TimerQueue::addTimer(const TimerCallback &cb,
 
 TimerId TimerQueue::addTimer(TimerCallback &&cb, Timestamp when, double interval) {
     Timer *timer = new Timer(std::move(cb), when, interval);
-    loop_->runInLoop(std::bind(&TimerQueue::addTimerInLoop, this, timer));
+    loop_->runInLoop(
+            std::bind(&TimerQueue::addTimerInLoop, this, timer));
     return TimerId(timer, timer->sequence());
 }
 
 void TimerQueue::cancel(TimerId timerId) {
-    loop_->runInLoop(std::bind(TimerQueue::addTimerInLoop, this, timerId));
+    loop_->runInLoop(std::bind(&TimerQueue::cancelInLoop, this, timerId));
+}
+
+void TimerQueue::addTimerInLoop(Timer *timer) {
+    loop_->assertInLoopThread();
+    bool earliestChanged = insert(timer);
+    if(earliestChanged)
+        resetTimerfd(timerfd_, timer->expiration());
 }
 
 void TimerQueue::cancelInLoop(TimerId timerId) {
@@ -114,7 +124,7 @@ void TimerQueue::cancelInLoop(TimerId timerId) {
         delete it->first;
         activeTimers_.erase(it);
     }
-    else if(cancelingTimers_)
+    else if(callingExpiredTimers_)
         cancelingTimers_.insert(timer);
 
     assert(timers_.size() == activeTimers_.size());

@@ -11,7 +11,7 @@ namespace blackpanther{
     namespace net{
         class Timer;
 
-        class TimerId : public blackpanther::noncopyable{
+        class TimerId : public blackpanther::copyable{
         public:
             TimerId()
                     : timer_(nullptr),

@@ -5,6 +5,8 @@
 #ifndef BLACKPANTHER_NET_TIMER_H
 #define BLACKPANTHER_NET_TIMER_H
 
+#include <blackpanther/base/noncopyable.h>
+
 #include <blackpanther/base/Atomic.h>
 #include <blackpanther/base/Timestamp.h>
 #include <blackpanther/net/Callbacks.h>
@@ -35,10 +37,10 @@ namespace blackpanther{
 
             Timestamp expiration() const { return expiration_; }
             bool repeat() const { return repeat_; }
-            int64_t sequence_() const { return sequence_; }
+            int64_t sequence() const { return sequence_; }
             void start(Timestamp now);
 
-            static int64_t numCreated() const { return s_numCreated_.get(); }
+            static int64_t numCreated() { return s_numCreated_.get(); }
 
         private:
             const TimerCallback callback_;

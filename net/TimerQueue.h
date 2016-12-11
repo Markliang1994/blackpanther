@@ -5,18 +5,23 @@
 #ifndef BLACKPANTHER_NET_TIMERQUEUE_H
 #define BLACKPANTHER_NET_TIMERQUEUE_H
 
+#include <set>
+#include <vector>
+
 #include <blackpanther/base/noncopyable.h>
 #include <blackpanther/base/Timestamp.h>
+#include <blackpanther/base/Mutex.h>
 
 #include <blackpanther/net/Channel.h>
-#include <blackpanther/net/TimerId.h>
 #include <blackpanther/net/Callbacks.h>
-
-#include <vector>
-#include <set>
 
 namespace blackpanther{
     namespace  net{
+
+        class EventLoop;
+        class Timer;
+        class TimerId;
+
         class TimerQueue : noncopyable{
         public:
             TimerQueue(EventLoop *loop);
