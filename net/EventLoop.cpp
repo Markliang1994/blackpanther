@@ -45,13 +45,20 @@ EventLoop::EventLoop():
         iteration_(0),
         threadId_(CurrentThread::tid()),
         poller_(Poller::newDefaultPoller(this)),
-        timerQueue_(new TimerQueue()),
+        timerQueue_(new TimerQueue(this)),
         wakeupFd_(createEventfd()),
         wakeupChannel_(new Channel(this, wakeupFd_)),
         currentActiveChannel_(nullptr)
     {
-    assertInLoopThread();
-    printf("thread is:%d\n", threadId_);
+        LOG_DEBUG << "EventLoop created " << this << " in thread " << threadId_;
+        if(t_loopInThisThread){
+            LOG_FATAL << "Another EventLoop " << t_loopInThisThread << " exists in this thread " << threadId_;
+        }
+        else{
+            t_loopInThisThread = this;
+        }
+        wakeupChannel_->setReadCallback(std::bind(&EventLoop::handleRead, this));
+        wakeupChannel_->enableReading();
 }
 
 void EventLoop::loop(){
@@ -110,15 +117,17 @@ size_t EventLoop::queueSize() const {
 }
 
 TimerId EventLoop::runAt(const Timestamp &time, const TimerCallback &cb) {
-
+    return timerQueue_->addTimer(cb, time, 0.0);
 }
 
 TimerId EventLoop::runAfter(double delay, const TimerCallback &cb) {
-
+    Timestamp time(addTime(Timestamp::now(), delay));
+    return runAt(time, cb);
 }
 
 TimerId EventLoop::runEvery(double interval, const TimerCallback &&cb) {
-
+    Timestamp time(addTime(Timestamp::now(), interval));
+    return timerQueue_->addTimer(cb, time, interval);
 }
 
 EventLoop::~EventLoop() {
