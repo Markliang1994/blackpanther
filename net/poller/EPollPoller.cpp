@@ -20,6 +20,13 @@ namespace
 using namespace blackpanther;
 using namespace blackpanther::net;
 
+static_assert(EPOLLIN == POLLIN, "EPOLLIN and POLLIN shoule be same");
+static_assert(EPOLLPRI == POLLPRI, "EPOLLPRI and POLLPRI shoule be same");
+static_assert(EPOLLOUT == POLLOUT, "EPOLLOUT and POLLOUT shoule be same");
+static_assert(EPOLLRDHUP == POLLRDHUP, "EPOLLRDHUP and POLLOUT shoule be same");
+static_assert(EPOLLERR == POLLERR, "EPOLLERR and POLLERR shoule be same");
+static_assert(EPOLLHUP == POLLHUP, "EPOLLHUP and POLLHUP shoule be same");
+
 EPollPoller::EPollPoller(EventLoop* loop)
         : Poller(loop),
           epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
