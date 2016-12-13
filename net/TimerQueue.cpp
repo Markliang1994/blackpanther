@@ -15,38 +15,37 @@
 #include <sys/timerfd.h>
 
 namespace blackpanther{
-    namespace net{
-        namespace  detail{
-            int createTimerfd(){
+    namespace net {
+        namespace detail {
+            int createTimerfd() {
                 int timerfd = ::timerfd_create(CLOCK_MONOTONIC,
-                                               TFD_NONBLOCK | TFD_CLOEXEC);
-
-                if(timerfd < 0)
+                                               TFD_CLOEXEC);
+                if (timerfd < 0)
                     LOG_SYSFATAL << "Failed in timerfd_create";
                 return timerfd;
             }
 
-            struct timespec howmuchTimeFromNow(Timestamp when){
+            struct timespec howmuchTimeFromNow(Timestamp when) {
                 int64_t microseconds = when.microSecondsSinceEpoch() - Timestamp::now().microSecondsSinceEpoch();
 
-                if(microseconds < 100)
+                if (microseconds < 100)
                     microseconds = 100;
 
                 struct timespec ts;
                 ts.tv_sec = static_cast<time_t>(microseconds / Timestamp::kMicroSecondsPerSecond);
-                ts.tv_nsec = static_cast<long>((microseconds % Timestamp::kMicroSecondsPerSecond)*1000);
+                ts.tv_nsec = static_cast<long>((microseconds % Timestamp::kMicroSecondsPerSecond) * 1000);
                 return ts;
             }
 
-            void readTimerfd(int timerfd, Timestamp now){
+            void readTimerfd(int timerfd, Timestamp now) {
                 uint64_t howmany;
                 ssize_t n = ::read(timerfd, &howmany, sizeof(howmany));
                 LOG_TRACE << "TimerQueue::handleRead() " << howmany << " at " << now.toString();
-                if(n != sizeof(howmany))
+                if (n != sizeof(howmany))
                     LOG_SYSERR << "TimerQueue::handleRead() reads " << n << "bytes instead of 8";
             }
 
-            void resetTimerfd(int timerfd, Timestamp expiration){
+            void resetTimerfd(int timerfd, Timestamp expiration) {
                 struct itimerspec newValue;
                 struct itimerspec oldValue;
 
@@ -54,7 +53,7 @@ namespace blackpanther{
                 bzero(&oldValue, sizeof(oldValue));
                 newValue.it_value = howmuchTimeFromNow(expiration);
                 int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
-                if(ret){
+                if (ret) {
                     LOG_SYSERR << "timerfd_settime()";
                 }
             }
@@ -176,7 +175,7 @@ void TimerQueue::reset(const std::vector<Entry> &expired, Timestamp now){
         ActiveTimer timer(it->second, it->second->sequence());
         if(it->second->repeat()
                 && cancelingTimers_.find(timer) == cancelingTimers_.end()){
-            it->second->start(now);
+            it->second->restart(now);
             insert(it->second);
         }
         else{
@@ -196,11 +195,11 @@ void TimerQueue::reset(const std::vector<Entry> &expired, Timestamp now){
 bool TimerQueue::insert(Timer *timer) {
     loop_->assertInLoopThread();
     assert(timers_.size() == activeTimers_.size());
-    bool earliesChanged = false;
+    bool earliestChanged = false;
     Timestamp when = timer->expiration();
     TimerList::iterator it = timers_.begin();
     if(it == timers_.end() || when < it->first)
-        earliesChanged = true;
+        earliestChanged = true;
     {
         std::pair<TimerList::iterator, bool> result
          = timers_.insert(Entry(when, timer));
@@ -214,7 +213,6 @@ bool TimerQueue::insert(Timer *timer) {
         assert(result.second);
         (void)result;
     }
-
     assert(timers_.size() == activeTimers_.size());
-    return earliesChanged;
+    return earliestChanged;
 }

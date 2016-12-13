@@ -49,7 +49,9 @@ EventLoop::EventLoop():
         wakeupFd_(createEventfd()),
         wakeupChannel_(new Channel(this, wakeupFd_)),
         currentActiveChannel_(nullptr)
+
     {
+
         LOG_DEBUG << "EventLoop created " << this << " in thread " << threadId_;
         if(t_loopInThisThread){
             LOG_FATAL << "Another EventLoop " << t_loopInThisThread << " exists in this thread " << threadId_;
@@ -97,8 +99,9 @@ void EventLoop::quit() {
 }
 
 void EventLoop::runInLoop(const Functor &cb) {
-    if(isInLoopThread())
+    if(isInLoopThread()) {
         cb();
+    }
     else
         queueInLoop(cb);
 }
