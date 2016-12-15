@@ -13,8 +13,9 @@
 
 namespace blackpanther{
     namespace net{
+
         namespace sockets{
-            const struct sockaddr *sockaddr_cast(const struct sockaddr_in6 *addr);
+            const struct sockaddr* sockaddr_cast(const struct sockaddr_in6 *addr);
         }
 
         class InetAddress : public blackpanther::copyable{
@@ -24,11 +25,11 @@ namespace blackpanther{
             InetAddress(std::string ip, uint16_t port, bool ipv6 = false);
 
             explicit InetAddress(const struct sockaddr_in &addr):
-                     addr6(addr)
+                    addr_(addr)
             { }
 
             explicit InetAddress(const struct sockaddr_in6 &addr):
-                     addr6_(addr)
+                    addr6_(addr)
             { }
 
             sa_family_t family() const { return addr_.sin_family; }
@@ -36,8 +37,8 @@ namespace blackpanther{
             std::string toIpPort() const;
             uint16_t toPort() const;
 
-            const struct sockadd* getSockAddr() const { return sockets::sockaddr_cast(&addr6_); }
-            void setSockAddrInet6(const struct sockaddr_in6 &addr6) { return addr6 = addr6; }
+            const struct sockaddr* getSockAddr() const { return sockets::sockaddr_cast(&addr6_); }
+            void setSockAddrInet6(const struct sockaddr_in6 &addr6) { addr6_ = addr6; }
 
             uint32_t ipNetEndian() const ;
             uint16_t  portNetEndian() const { return addr_.sin_port; }
@@ -45,9 +46,12 @@ namespace blackpanther{
         private:
             union {
                 struct sockaddr_in addr_;
-                srtuct sockaddr_in6 addr6_;
+                struct sockaddr_in6 addr6_;
             };
         };
     }
 }
+
+
+
 #endif //BLACKPANTHER_INETADDRESS_H

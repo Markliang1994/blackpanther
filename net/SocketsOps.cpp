@@ -15,6 +15,7 @@ using namespace blackpanther;
 using namespace blackpanther::net;
 
 namespace {
+#if VALGRIND || defined (NO_ACCEPT4)
     typedef struct sockaddr SA;
     void setNonBlockAndCloseOnExec(int sockfd){
         int flags = ::fcntl(sockfd, F_GETFL, 0);
@@ -27,6 +28,7 @@ namespace {
 
         (void)ret;
     }
+#endif
 }
 
 const struct sockaddr* sockets::sockaddr_cast(const struct sockaddr_in6 *addr) {
@@ -34,7 +36,7 @@ const struct sockaddr* sockets::sockaddr_cast(const struct sockaddr_in6 *addr) {
 }
 
 struct sockaddr* sockets::sockaddr_cast(struct sockaddr_in6 *addr) {
-    return static_cast<struct sockadd*>(boost::implicit_cast<void*>(addr));
+    return static_cast<struct sockaddr*>(boost::implicit_cast<void*>(addr));
 }
 
 const struct sockaddr* sockets::sockaddr_cast(const struct sockaddr_in *addr){
@@ -69,9 +71,9 @@ void sockets::listenOrDie(int sockfd) {
     }
 }
 
-int sockets::accept(int sockfd, struct sosckaddr_in6 *addr) {
+int sockets::accept(int sockfd, struct sockaddr_in6 *addr) {
     socklen_t addrlen = static_cast<socklen_t>(sizeof(addr));
-    int connfd = ::accept4(sockfd, sockaddr_cast(*addr), &addrlen, SOCK_NONBLOCK | SOCK_CLOEXEC);
+    int connfd = ::accept4(sockfd, sockaddr_cast(addr), &addrlen, SOCK_NONBLOCK | SOCK_CLOEXEC);
     if(connfd < 0){
         int savedErrno = errno;
         switch(savedErrno){
@@ -98,7 +100,7 @@ int sockets::accept(int sockfd, struct sosckaddr_in6 *addr) {
                 break;
         }
     }
-    return connf;
+    return connfd;
 }
 
 int sockets::connect(int sockfd, const struct sockaddr *addr) {
@@ -137,12 +139,12 @@ void sockets::toIp(char *buf, size_t size, const struct sockaddr *addr){
     else if(addr->sa_family == AF_INET6){
         assert(size >= INET6_ADDRSTRLEN);
         const struct sockaddr_in6 *addr6 = sockaddr_in6_cast(addr);
-        ::inet_ntop(AF_INET6, &addr6->sin6_addrm buf, static_cast<socklen_t>(size));
+        ::inet_ntop(AF_INET6, &addr6->sin6_addr, buf, static_cast<socklen_t>(size));
     }
 }
 
 void sockets::toIpPort(char *buf, size_t size, const struct sockaddr *addr) {
-    topIp(buf, size, addr);
+    toIp(buf, size, addr);
     size_t end = ::strlen(buf);
     const struct sockaddr_in *addr4 = sockaddr_in_cast(addr);
     uint16_t port = sockets::networkToHost16(addr4->sin_port);
@@ -200,11 +202,11 @@ struct sockaddr_in6 sockets::getPeerAddr(int sockfd) {
 }
 
 bool sockets::isSelfConnect(int sockfd) {
-    struct sockaddr_in6 localaddr = getLoaclAddr(sockfd);
+    struct sockaddr_in6 localaddr = getLocalAddr(sockfd);
     struct sockaddr_in6 peeraddr = getPeerAddr(sockfd);
     if(localaddr.sin6_family == AF_INET){
-        const struct sockaddr_in *laddr4 = reinterpret_cast<struct sockaddr_in>(&localaddr);
-        const struct sockaddr_in *raddr4 = reinterpret_cast<struct sockaddr_in>(&peeraddr);
+        const struct sockaddr_in *laddr4 = reinterpret_cast<struct sockaddr_in*>(&localaddr);
+        const struct sockaddr_in *raddr4 = reinterpret_cast<struct sockaddr_in*>(&peeraddr);
         return laddr4->sin_port == raddr4->sin_port && laddr4->sin_addr.s_addr == raddr4->sin_addr.s_addr;
     }
     else if(localaddr.sin6_family == AF_INET6){
