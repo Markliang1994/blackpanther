@@ -11,13 +11,13 @@
 namespace blackpanther{
     namespace net{
         namespace sockets{
-            inline uint64_t hostToNetwork(uint64_t host64){
+            inline uint64_t hostToNetwork64(uint64_t host64){
                 return htobe64(host64);
             }
-            inline uint32_t hostToNetwork(uint32_t host32){
+            inline uint32_t hostToNetwork32(uint32_t host32){
                 return htobe(host32);
             }
-            inline uint16_t hostToNetwokr(uint16_t host16){
+            inline uint16_t hostToNetwokr16(uint16_t host16){
                 return htobe16(host16);
             }
             inline uint64_t networkToHost64(uint64_t network64){
