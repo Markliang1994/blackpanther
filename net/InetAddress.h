@@ -43,7 +43,7 @@ namespace blackpanther{
             uint32_t ipNetEndian() const ;
             uint16_t  portNetEndian() const { return addr_.sin_port; }
 
-            bool resolve(std::string host, InetAddress *outy);
+            static bool resolve(std::string host, InetAddress *outy);
 
         private:
             union {
