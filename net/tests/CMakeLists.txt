@@ -1,2 +1,10 @@
 add_executable(eventloop_test EventLoop_test.cpp)
 target_link_libraries(eventloop_test blackpanther_net)
+
+add_executable(channel_test Channel_test.cpp)
+target_link_libraries(channel_test blackpanther_net)
+
+if(BOOSTTEST_LIBRARY)
+add_executable(inetaddress_test InetAddress_unittest.cpp)
+target_link_libraries(inetaddress_test blackpanther_net boost_unit_test_framework)
+endif()
