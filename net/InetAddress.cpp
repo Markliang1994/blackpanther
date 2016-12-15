@@ -53,6 +53,11 @@ std::string InetAddress::toIpPort() const {
     return buf;
 }
 
+uint32_t InetAddress::ipNetEndian() const {
+    assert(family() == AF_INET);
+    return addr_.sin_addr.s_addr;
+}
+
 std::string InetAddress::toIp() const {
     char buf[64] = "";
     sockets::toIp(buf, sizeof(buf), getSockAddr());
