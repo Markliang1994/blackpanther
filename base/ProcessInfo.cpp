@@ -52,11 +52,24 @@ pid_t  pid(){
 }
 
 std::string pidString(){
-
+    char buf[32];
+    snprintf(buf, sizeof(buf), "%d", pid());
+    return buf;
 }
 
 uid_t ProcessInfo::uid() {
     return ::getuid();
+}
+
+std::string ProcessInfo::hostname(){
+    char buf[256];
+    if(::gethostname(buf, sizeof(buf)) == 0){
+        buf[sizeof(buf)-1] = '\0';
+        return buf;
+    }
+    else{
+        return "unknowhost";
+    }
 }
 
 std::string ProcessInfo::username() {
@@ -82,11 +95,15 @@ int ProcessInfo::clockTicksPerSecond() {
 }
 
 int ProcessInfo::pageSize() {
-
+    return g_pageSize;
 }
 
 bool isDebugBuild(){
-
+#ifdef NDEBUG
+    return false;
+#else
+    return true;
+#endif
 }
 
 std::string ProcessInfo::procStatus() {
@@ -137,8 +154,8 @@ ProcessInfo::CpuTime ProcessInfo::cpuTime() {
     struct tms tms;
     if(::times(&tms)){
         const double hz = static_cast<double>(clockTicksPerSecond());
-        t.userSeconds = static_cast<double>(tms.tms_utime);
-        t.systemSeconds = static_cast<double>(tms.tms_stime);
+        t.userSeconds = static_cast<double>(tms.tms_utime) / hz;
+        t.systemSeconds = static_cast<double>(tms.tms_stime) / hz;
     }
     return t;
 }
