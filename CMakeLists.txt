@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(BLACKPANTHER)
+project(blackpanther)
 
 INCLUDE_DIRECTORIES(/home/mark/Documents/workspace)
 include_directories(/usr/include/boost)

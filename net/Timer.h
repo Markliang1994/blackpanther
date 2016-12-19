@@ -38,7 +38,7 @@ namespace blackpanther{
             Timestamp expiration() const { return expiration_; }
             bool repeat() const { return repeat_; }
             int64_t sequence() const { return sequence_; }
-            void start(Timestamp now);
+            void restart(Timestamp now);
 
             static int64_t numCreated() { return s_numCreated_.get(); }
 

@@ -9,7 +9,7 @@ using namespace blackpanther::net;
 
 AtomicInt64 Timer::s_numCreated_;
 
-void Timer::start(Timestamp now) {
+void Timer::restart(Timestamp now) {
     if(repeat_){
         expiration_ = addTime(now, interval_);
     }
