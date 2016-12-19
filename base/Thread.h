@@ -42,10 +42,10 @@ namespace blackpanther{
         bool started_;
         bool joined_;
 
+        pthread_t pthreadId_;
+        std::shared_ptr<pid_t> tid_;
         ThreadFunc func_;
         std::string name_;
-        std::shared_ptr<pid_t> tid_;
-        pthread_t pthreadId_;
 
         static AtomicInt32 numCreated_;
     };
