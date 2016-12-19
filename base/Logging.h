@@ -104,7 +104,7 @@ namespace blackpanther{
 #define LOG_WARN blackpanther::Logger(__FILE__, __LINE__, blackpanther::Logger::WARN).stream()
 #define LOG_ERROR blackpanther::Logger(__FILE__, __LINE__, blackpanther::Logger::ERROR).stream()
 #define LOG_FATAL blackpanther::Logger(__FILE__, __LINE__, blackpanther::Logger::FATAL).stream()
-#define LOG_SYSERR blackpanther::Logger(__FILE__, __LINE__, flase).stream()
+#define LOG_SYSERR blackpanther::Logger(__FILE__, __LINE__, false).stream()
 #define LOG_SYSFATAL blackpanther::Logger(__FILE__, __LINE__, true).stream()
 
     const char *strerror_tl(int savedErrno);

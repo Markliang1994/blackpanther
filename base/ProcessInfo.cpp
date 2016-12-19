@@ -47,11 +47,11 @@ namespace blackpanther{
 using namespace blackpanther;
 using namespace detail;
 
-pid_t  pid(){
+pid_t  ProcessInfo::pid(){
     return ::getpid();
 }
 
-std::string pidString(){
+std::string ProcessInfo::pidString(){
     char buf[32];
     snprintf(buf, sizeof(buf), "%d", pid());
     return buf;
@@ -61,7 +61,7 @@ uid_t ProcessInfo::uid() {
     return ::getuid();
 }
 
-std::string ProcessInfo::hostname(){
+std::string ProcessInfo::hostName(){
     char buf[256];
     if(::gethostname(buf, sizeof(buf)) == 0){
         buf[sizeof(buf)-1] = '\0';

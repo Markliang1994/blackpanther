@@ -42,3 +42,24 @@ Date::Date(int y, int m, int d)
         :julianDayNumber_(getJulianDayNumber(y, m, d))
 { }
 
+Date::Date(const struct tm& t)
+        : julianDayNumber_(getJulianDayNumber(
+        t.tm_year+1900,
+        t.tm_mon+1,
+        t.tm_mday))
+{
+}
+
+std::string Date::toIsoString() const
+{
+    char buf[32];
+    YearMonthDay ymd(yearMonthDay());
+    snprintf(buf, sizeof buf, "%4d-%02d-%02d", ymd.year, ymd.month, ymd.day);
+    return buf;
+}
+
+Date::YearMonthDay Date::yearMonthDay() const
+{
+    return getYearMonthDay(julianDayNumber_);
+}
+

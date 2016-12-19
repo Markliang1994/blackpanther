@@ -14,13 +14,6 @@ struct tm;
 
 namespace blackpanther
 {
-
-///
-/// Date in Gregorian calendar.
-///
-/// This class is immutable.
-/// It's recommended to pass it by value, since it's passed in register on x64.
-///
     class Date : public blackpanther::copyable
     {
     public:

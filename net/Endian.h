@@ -15,9 +15,9 @@ namespace blackpanther{
                 return htobe64(host64);
             }
             inline uint32_t hostToNetwork32(uint32_t host32){
-                return htobe(host32);
+                return htobe32(host32);
             }
-            inline uint16_t hostToNetwokr16(uint16_t host16){
+            inline uint16_t hostToNetwork16(uint16_t host16){
                 return htobe16(host16);
             }
             inline uint64_t networkToHost64(uint64_t network64){
