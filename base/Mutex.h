@@ -62,7 +62,7 @@ namespace blackpanther{
             return holder_ == CurrentThread::tid();
         }
 
-        bool assertLocked()const {
+        void assertLocked()const {
             assert(isLockedByThisThread());
         }
 

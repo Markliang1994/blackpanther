@@ -45,11 +45,11 @@ namespace blackpanther{
         Condition notEmpty_;
         Condition notFull_;
 
-        int maxQueueSize_;
         Task threadInitCallback_;
         std::string name_;
         std::vector<std::unique_ptr<blackpanther::Thread>> threads_;
         std::deque<Task> queue_;
+        size_t maxQueueSize_;
         bool running_;
     };
 }
