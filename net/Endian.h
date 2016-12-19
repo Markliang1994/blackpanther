@@ -23,7 +23,7 @@ namespace blackpanther{
             inline uint64_t networkToHost64(uint64_t network64){
                 return be64toh(network64);
             }
-            inline uint64_t networkToHost32(uint32_t network32){
+            inline uint32_t networkToHost32(uint32_t network32){
                 return be32toh(network32);
             }
             inline uint16_t networkToHost16(uint16_t network16){
