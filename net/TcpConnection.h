@@ -42,32 +42,40 @@ namespace blackpanther{
 
             void send(const void *message, int len);
             void send(const std::string &&message);
+            void send(const std::string &message);
             void send(Buffer &&message);
             void send(Buffer *message);
             void shutdown(); // Not thread safe
 
             void forceClose();
-            void forceCloseWithDelay();
-            void setTcpNoDelay();
+            void forceCloseWithDelay(double seconds);
+            void setTcpNoDelay(bool on);
             void startRead();
             void stopRead();
             bool isReading() const { return reading_; }
 
-            void setConnectionCallback(const ConnectionCallback &cb){
+            void setContext(const boost::any &context){
+                context_ = context;
+            }
+            boost::any* getMutableContext(){
+                return &context_;
+            }
 
+            void setConnectionCallback(const ConnectionCallback &cb){
+                connectionCallback_ = cb;
             }
             void setMessageCallback(const MessageCallback &cb){
-
+                messageCallback_ = cb;
             }
             void setWriteCompleteCallback(const WriteCompleteCallback &cb){
-
+                writeCompleteCallback_ = cb;
             }
             void setHighWaterMarkCallback(const HighWaterMarkCallback &cb, size_t highWaterMark){
-
+                highWaterMarkCallback_ = cb, highWaterMark_ = highWaterMark;
             }
 
-            Buffer* inputBuffer(){ return &inputBuffe_; }
-            Buffer* outputBuffer(){ return &outputBuffe_; }
+            Buffer* inputBuffer(){ return &inputBuffer_; }
+            Buffer* outputBuffer(){ return &outputBuffer_; }
 
             void setCloseCallback(const CloseCallback &cb){
 
@@ -96,10 +104,11 @@ namespace blackpanther{
             EventLoop *loop_;
             const std::string name_;
             StateE state_;
-
-
+            std::unique_ptr<Socket> socket_;
+            std::unique_ptr<Channel> channel_;
             const InetAddress localaddr_;
             const InetAddress peeraddr_;
+
             ConnectionCallback connectionCallback_;
             MessageCallback messageCallback_;
             WriteCompleteCallback writeCompleteCallback_;
