@@ -31,7 +31,7 @@ namespace blackpanther{
             void restart();
             void stop();
 
-            const InetAddress& serverInetAddress() const { return serverAddr_; }
+            const InetAddress& serverAddress() const { return serverAddr_; }
 
         private:
             enum States { kDisconnected, kConnecting, kConnected };
