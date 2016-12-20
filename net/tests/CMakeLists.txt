@@ -8,3 +8,8 @@ if(BOOSTTEST_LIBRARY)
 add_executable(inetaddress_test InetAddress_unittest.cpp)
 target_link_libraries(inetaddress_test blackpanther_net boost_unit_test_framework)
 endif()
+
+if(BOOSTTEST_LIBRARY)
+add_executable(buffer_unittest Buffer_unittest.cpp)
+target_link_libraries(buffer_unittest blackpanther_net boost_unit_test_framework)
+endif()
