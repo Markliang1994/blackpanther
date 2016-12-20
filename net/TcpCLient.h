@@ -1,8 +1,0 @@
-//
-// Created by mark on 16-12-20.
-//
-
-#ifndef BLACKPANTHER_TCPCLIENT_H
-#define BLACKPANTHER_TCPCLIENT_H
-
-#endif //BLACKPANTHER_TCPCLIENT_H
