@@ -15,13 +15,13 @@ namespace blackpanther{
 
         class Socket : noncopyable{
         public:
-            explicit Socket(int socketfd):
-                    socketfd_(socketfd){ }
+            explicit Socket(int sockfd):
+                    sockfd_(sockfd){ }
 
             ~Socket();
-
+            int fd() const { return sockfd_; }
             bool getTcpInfo(struct tcp_info *) const;
-            bool getTcpInfoString(char *buf, int len);
+            bool getTcpInfoString(char *buf, int len) const;
 
             void bindAddress(const InetAddress &localaddr);
 
@@ -43,7 +43,7 @@ namespace blackpanther{
             void setKeepAlive(bool on);
 
         private:
-            const int socketfd_;
+            const int sockfd_;
         };
     }
 }

@@ -1,0 +1,8 @@
+//
+// Created by mark on 16-12-20.
+//
+
+#ifndef BLACKPANTHER_ACCEPTOR_H
+#define BLACKPANTHER_ACCEPTOR_H
+
+#endif //BLACKPANTHER_ACCEPTOR_H
