@@ -17,6 +17,7 @@
 #include <type_traits>
 
 #include <boost/static_assert.hpp>
+#include <blackpanther/base/Timestamp.h>
 
 namespace blackpanther{
     namespace CurrentThread{
@@ -113,8 +114,8 @@ bool CurrentThread::isMainThread(){
 
 void CurrentThread::sleepUsec(int64_t usec){
     struct timespec ts = {0, 0};
-    ts.tv_nsec = static_cast<time_t>(usec/1000); // Fix me
-    ts.tv_nsec = static_cast<long>(usec % 1000);
+    ts.tv_nsec = static_cast<time_t>(usec/Timestamp::kMicroSecondsPerSecond); // Fix me
+    ts.tv_nsec = static_cast<long>(usec % Timestamp::kMicroSecondsPerSecond);
     ::nanosleep(&ts, nullptr);
 }
 
