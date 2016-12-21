@@ -22,7 +22,7 @@ namespace blackpanther{
         class EventLoop;
         class Socket;
 
-        class TcpConnection : blackpanther::noncopyable, std::enable_shared_from_this<TcpConnection>{
+        class TcpConnection : blackpanther::noncopyable, public std::enable_shared_from_this<TcpConnection>{
         public:
             TcpConnection(EventLoop *loop, const std::string name,
                           int sockfd,
@@ -41,7 +41,6 @@ namespace blackpanther{
             std::string getTcpInfoString() const;
 
             void send(const void *message, int len);
-            void send(const std::string &&message);
             void send(const std::string &message);
             void send(Buffer &&message);
             void send(Buffer *message);
