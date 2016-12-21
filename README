@@ -1,4 +1,5 @@
-blackpanther is a c++ network library.
+blackpanther is a reactor c++ network library.
+In fact, You can treat blackpanther as one copy of muduo network libray(Author Shuo Chen)
  _     _            _                        _   _               
 | |__ | | __ _  ___| | __  _ __   __ _ _ __ | |_| |__   ___ _ __ 
 | '_ \| |/ _` |/ __| |/ / | '_ \ / _` | '_ \| __| '_ \ / _ \ '__|
