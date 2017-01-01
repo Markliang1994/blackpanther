@@ -1,5 +1,7 @@
 set(net_srcs
         EventLoop.cpp
+        Acceptor.cpp
+        Connector.cpp
         Channel.cpp
         InetAddress.cpp
         SocketsOps.cpp
@@ -17,6 +19,8 @@ target_link_libraries(blackpanther_net blackpanther_base)
 
 set(net_headers
         Channel.h
+        Acceptor.h
+        Connector.h
         EventLoop.h
         InetAddress.h
         Endian.h
