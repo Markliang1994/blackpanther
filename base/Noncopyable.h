@@ -7,16 +7,16 @@
 
 namespace blackpanther {
 
-    class noncopyable {
+    class Noncopyable {
     protected:
-        noncopyable() = default;
+        Noncopyable() = default;
 
-        ~noncopyable() = default;
+        ~Noncopyable() = default;
 
     private:
-        noncopyable(const noncopyable &) = delete;
+        Noncopyable(const Noncopyable&) = delete;
 
-        void operator=(const noncopyable &) = delete;
+        void operator=(const Noncopyable&) = delete;
     };
 }
 

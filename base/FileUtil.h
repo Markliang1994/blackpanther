@@ -6,7 +6,7 @@
 #define BLACKPANTHER_BASE_FILEUTIL_H
 
 #include <string>
-#include "noncopyable.h"
+#include <blackpanther/base/Noncopyable.h>
 
 namespace blackpanther{
     namespace FileUtil{
@@ -30,7 +30,7 @@ namespace blackpanther{
         private:
             int fd_;
             int err_;
-            char buf_[];
+            char buf_[kBufferSize];
         };
 
         template <typename T>
@@ -45,7 +45,7 @@ namespace blackpanther{
         }
 
         // Watch out! not thread safe.
-        class AppendFile : noncopyable{
+        class AppendFile : Noncopyable{
         public:
             explicit AppendFile(const std::string &filename);
             ~AppendFile();

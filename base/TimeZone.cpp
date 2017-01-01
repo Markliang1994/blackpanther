@@ -3,13 +3,13 @@
 //
 #include <blackpanther/base/TimeZone.h>
 #include <blackpanther/base/Date.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <algorithm>
+#include <vector>
 
 #include <assert.h>
-
 #include <strings.h>
-#include "noncopyable.h"
 
 namespace blackpanther{
     namespace detail{
@@ -68,15 +68,15 @@ using namespace blackpanther;
 using namespace std;
 
 struct TimeZone::Data{
-    vector<detail::Transition> transitions;
-    vector<detail::Localtime> localtimes;
-    vector<std::string> names;
+    std::vector<detail::Transition> transitions;
+    std::vector<detail::Localtime> localtimes;
+    std::vector<std::string> names;
     std::string abbreviation;
 };
 
 namespace blackpanther{
     namespace detail{
-        class File : noncopyable{
+        class File : Noncopyable{
         public:
             File(const char *file):
                     fp_(::fopen(file, "rb")){ }
@@ -139,7 +139,6 @@ namespace blackpanther{
 
                     for(int i = 0; i < timecnt; ++i){
                         uint8_t local = f.readUInt8();
-                        printf("local:%u\n", local);
                         localtimes.push_back(local);
                     }
                     for(int i = 0; i < typecnt; ++i){

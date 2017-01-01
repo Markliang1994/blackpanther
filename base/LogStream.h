@@ -5,11 +5,12 @@
 #ifndef BLACKPANTHER_BASE_LOGSTREAM_H
 #define BLACKPANTHER_BASE_LOGSTREAM_H
 
-#include <string>
-#include <assert.h>
+#include <blackpanther/base/Noncopyable.h>
 
+#include <string>
+
+#include <assert.h>
 #include <string.h>
-#include "noncopyable.h"
 
 #include <boost/implicit_cast.hpp>
 
@@ -19,7 +20,7 @@ namespace detail{
     const int kLargeBuffer = 4000*1000;
 
     template <int SIZE>
-    class FixedBuffer : noncopyable{
+    class FixedBuffer : Noncopyable{
     public:
         FixedBuffer()
                 :cur_(data_){
@@ -61,7 +62,7 @@ namespace detail{
         char *cur_;
     };
 }
-    class LogStream : noncopyable{
+    class LogStream : Noncopyable{
         typedef LogStream self;
     public:
         typedef detail::FixedBuffer<detail::kSmallBuffer> Buffer;
@@ -133,7 +134,7 @@ namespace detail{
         static const int kMaxNumericSize = 32;
     };
 
-    class fmt : noncopyable{
+    class fmt : Noncopyable{
     public:
         template <typename T>
         fmt(const char *f, T val);

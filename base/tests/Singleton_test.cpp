@@ -6,9 +6,9 @@
 #include <blackpanther/base/CurrentThread.h>
 #include <blackpanther/base/Thread.h>
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
-class Test : blackpanther::noncopyable{
+class Test : blackpanther::Noncopyable{
 public:
     Test(){
         printf("tid = %d, constructing %p\n", blackpanther::CurrentThread::tid(), this);
@@ -23,7 +23,7 @@ private:
     std::string name_;
 };
 
-class TestNoDestroy : blackpanther::noncopyable{
+class TestNoDestroy : blackpanther::Noncopyable{
 public:
     void no_destroy();
 

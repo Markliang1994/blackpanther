@@ -8,10 +8,10 @@
 #include <blackpanther/base/Condition.h>
 #include <blackpanther/base/Mutex.h>
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 namespace blackpanther{
-    class CountDownLatch : blackpanther::noncopyable{
+    class CountDownLatch : blackpanther::Noncopyable{
     public:
         explicit CountDownLatch(int count);
 

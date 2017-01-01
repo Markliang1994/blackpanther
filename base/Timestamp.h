@@ -5,14 +5,14 @@
 #ifndef BLACKPANTHER_BASE_TIMESTAMP_H
 #define BLACKPANTHER_BASE_TIMESTAMP_H
 
-#include <blackpanther/base/copyable.h>
+#include <blackpanther/base/Copyable.h>
 
 #include <stdint.h>
 #include <time.h>
 #include <string>
 
 namespace blackpanther{
-    class Timestamp : public blackpanther::copyable{
+    class Timestamp : public blackpanther::Copyable{
     public:
         Timestamp()
                 :microSecondsSinceEpoch_(0){ }

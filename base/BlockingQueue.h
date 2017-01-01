@@ -8,7 +8,7 @@
 #include <blackpanther/base/Condition.h>
 #include <blackpanther/base/Mutex.h>
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <deque>
 #include <assert.h>
@@ -17,7 +17,7 @@
 
 namespace  blackpanther{
     template <typename T>
-    class BlockingQueue : blackpanther::noncopyable{
+    class BlockingQueue : blackpanther::Noncopyable{
     public:
         BlockingQueue()
                 : mutex_(), notEmpty_(mutex_),

@@ -6,7 +6,7 @@
 #define BLACKPANTHER_BASE_DATE_H
 
 #include <blackpanther/base/Date.h>
-#include <blackpanther/base/copyable.h>
+#include <blackpanther/base/Copyable.h>
 
 #include <string>
 
@@ -14,7 +14,7 @@ struct tm;
 
 namespace blackpanther
 {
-    class Date : public blackpanther::copyable
+    class Date : public blackpanther::Copyable
     {
     public:
 

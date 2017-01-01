@@ -8,13 +8,13 @@
 #include <blackpanther/base/Condition.h>
 #include <blackpanther/base/Mutex.h>
 #include <blackpanther/base/Thread.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <deque>
 #include <vector>
-#include "noncopyable.h"
 
 namespace blackpanther{
-    class ThreadPool : noncopyable{
+    class ThreadPool : Noncopyable{
     public:
         typedef std::function<void()> Task;
 

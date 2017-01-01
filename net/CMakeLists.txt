@@ -7,6 +7,7 @@ set(net_srcs
         TimerQueue.cpp
         Timer.cpp
         Poller.cpp
+        Buffer.cpp
         poller/DefaultPoller.cpp
         poller/EPollPoller.cpp
         poller/PollPoller.cpp
@@ -24,6 +25,7 @@ set(net_headers
         TimerQueue.h
         Timer.h
         TimerId.h
+        Buffer.h
         Poller.h
         poller/EPollPoller.h
         poller/PollPoller.h)

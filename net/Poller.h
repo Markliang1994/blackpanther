@@ -14,7 +14,7 @@
 namespace blackpanther{
     namespace net{
         class Channel;
-        class Poller : noncopyable{
+        class Poller : Noncopyable{
         public:
             typedef std::vector<Channel*> ChannelList;
 

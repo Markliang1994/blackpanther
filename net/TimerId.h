@@ -5,13 +5,13 @@
 #ifndef BLACKPANTHER_NET_TIMERID_H
 #define BLACKPANTHER_NET_TIMERID_H
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Copyable.h>
 
 namespace blackpanther{
     namespace net{
         class Timer;
 
-        class TimerId : public blackpanther::copyable{
+        class TimerId : public blackpanther::Copyable{
         public:
             TimerId()
                     : timer_(nullptr),

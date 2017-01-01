@@ -5,7 +5,7 @@
 #ifndef BLACKPANTHER_NET_SOCKET_H
 #define BLACKPANTHER_NET_SOCKET_H
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 struct tcp_info;
 
@@ -13,7 +13,7 @@ namespace blackpanther{
     namespace net{
         class InetAddress;
 
-        class Socket : noncopyable{
+        class Socket : Noncopyable{
         public:
             explicit Socket(int sockfd):
                     sockfd_(sockfd){ }

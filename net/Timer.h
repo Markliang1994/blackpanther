@@ -5,7 +5,7 @@
 #ifndef BLACKPANTHER_NET_TIMER_H
 #define BLACKPANTHER_NET_TIMER_H
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <blackpanther/base/Atomic.h>
 #include <blackpanther/base/Timestamp.h>
@@ -13,7 +13,7 @@
 
 namespace blackpanther{
     namespace net{
-        class Timer : noncopyable{
+        class Timer : Noncopyable{
         public:
             Timer(const TimerCallback &cb, Timestamp when, double interval)
                     : callback_(cb),

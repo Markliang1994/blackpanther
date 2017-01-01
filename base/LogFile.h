@@ -6,15 +6,15 @@
 #define BLACKPANTHER_BASE_LOGFILE_H
 
 #include <blackpanther/base/Mutex.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <memory>
-#include "noncopyable.h"
 
 namespace blackpanther{
     namespace FileUtil {
         class AppendFile;
     }
-    class LogFile : noncopyable{
+    class LogFile : Noncopyable{
     public:
         LogFile(const std::string &basename, size_t rollSize,
                 bool threadSafe = true,

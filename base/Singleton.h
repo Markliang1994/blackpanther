@@ -5,7 +5,7 @@
 #ifndef BLACKPANTHER_BASE_SINGLETON_H_H
 #define BLACKPANTHER_BASE_SINGLETON_H_H
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -23,7 +23,7 @@ namespace blackpanther{
     }
 
     template <typename T>
-    class Singleton : blackpanther::noncopyable{
+    class Singleton : blackpanther::Noncopyable{
     public:
         static T& instance(){
             pthread_once(&ponce_, &Singleton::init);

@@ -8,7 +8,7 @@
 #include <set>
 #include <vector>
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 #include <blackpanther/base/Timestamp.h>
 #include <blackpanther/base/Mutex.h>
 
@@ -22,7 +22,7 @@ namespace blackpanther{
         class Timer;
         class TimerId;
 
-        class TimerQueue : noncopyable{
+        class TimerQueue : Noncopyable{
         public:
             TimerQueue(EventLoop *loop);
             ~TimerQueue();

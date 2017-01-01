@@ -6,7 +6,7 @@
 #define BLACKPANTHER_NET_CHANNEL_H
 
 #include <blackpanther/base/Timestamp.h>
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <functional>
 #include <memory>
@@ -15,7 +15,7 @@ namespace blackpanther{
     namespace net{
         class EventLoop;
 
-        class Channel : noncopyable{
+        class Channel : Noncopyable{
         public:
             typedef std::function<void()> EventCallback;
             typedef std::function<void(Timestamp)> ReadEventCallback;

@@ -5,10 +5,11 @@
 #ifndef BLACKPANTHER_NET_BUFFER_H
 #define BLACKPANTHER_NET_BUFFER_H
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 #include <blackpanther/net/Endian.h>
 
 #include <algorithm>
+#include <string>
 #include <vector>
 
 #include <assert.h>
@@ -16,7 +17,7 @@
 
 namespace blackpanther{
     namespace net{
-        class Buffer : public noncopyable{
+        class Buffer : public Noncopyable{
         public:
             static const size_t kCheapPrepend = 8;
             static const size_t kInitialSize = 1024;

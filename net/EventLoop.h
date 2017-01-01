@@ -13,7 +13,7 @@
 #include <blackpanther/base/Mutex.h>
 #include <blackpanther/base/CurrentThread.h>
 #include <blackpanther/base/Timestamp.h>
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <blackpanther/net/TimerId.h>
 #include <blackpanther/net/Callbacks.h>
@@ -24,7 +24,7 @@ namespace blackpanther{
         class Poller;
         class TimerQueue;
 
-        class EventLoop : noncopyable{
+        class EventLoop : Noncopyable{
         public:
             typedef std::function<void()> Functor;
 

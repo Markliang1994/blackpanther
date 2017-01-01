@@ -5,7 +5,7 @@
 #ifndef BLACKPANTHER_NET_INETADDRESS_H
 #define BLACKPANTHER_NET_INETADDRESS_H
 
-#include <blackpanther/base/copyable.h>
+#include <blackpanther/base/Copyable.h>
 
 #include <string>
 
@@ -18,7 +18,7 @@ namespace blackpanther{
             const struct sockaddr* sockaddr_cast(const struct sockaddr_in6 *addr);
         }
 
-        class InetAddress : public blackpanther::copyable{
+        class InetAddress : public blackpanther::Copyable{
         public:
             explicit InetAddress(uint16_t port = 0, bool loopbackOnly = false, bool ipv6 = false);
 

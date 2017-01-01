@@ -6,10 +6,10 @@
 #define BLACKPANTHER_BASE_COPYABLE_H
 
 namespace blackpanther{
-    class copyable{
+    class Copyable{
     protected:
-        copyable() = default;
-        ~copyable() = default;
+        Copyable() = default;
+        ~Copyable() = default;
     };
 }
 #endif //BLACKPANTHER_COPYABLE_H

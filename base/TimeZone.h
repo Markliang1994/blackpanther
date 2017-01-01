@@ -5,12 +5,12 @@
 #ifndef BLACKPANTHER_BASE_TIMEZONE_H
 #define BLACKPANTHER_BASE_TIMEZONE_H
 
-#include <blackpanther/base/copyable.h>
+#include <blackpanther/base/Copyable.h>
 #include <memory>
 #include <time.h>
 
 namespace blackpanther{
-    class TimeZone : copyable{
+    class TimeZone : Copyable{
     public:
         explicit TimeZone(const char *zonefile);
         TimeZone(int eastOfUtc, const char *tzname);
