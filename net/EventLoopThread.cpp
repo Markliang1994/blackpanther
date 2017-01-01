@@ -43,7 +43,6 @@ EventLoop* EventLoopThread::startLoop() {
 void EventLoopThread::threadFunc() {
     EventLoop loop;
     if(callback_){
-        std::cout << "SHit" << std::endl;
         callback_(&loop);
     }
     {
