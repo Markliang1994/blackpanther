@@ -8,7 +8,7 @@
 #include <blackpanther/net/Channel.h>
 #include <blackpanther/net/Socket.h>
 
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <functional>
 
@@ -17,7 +17,7 @@ namespace blackpanther{
         class EventLoop;
         class InetAddress;
 
-        class Acceptor : public blackpanther::noncopyable{
+        class Acceptor : public blackpanther::Noncopyable{
         public:
             typedef std::function<void(int sockfd, const InetAddress&)> NewConnectionCallback;
 

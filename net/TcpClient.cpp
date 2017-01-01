@@ -1,7 +1,7 @@
 //
 // Created by mark on 16-12-20.
 //
-#include <blackpanther/net/TcpCLient.h>
+#include <blackpanther/net/TcpClient.h>
 
 #include <blackpanther/base/Logging.h>
 #include <blackpanther/net/Connector.h>

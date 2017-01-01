@@ -10,7 +10,7 @@
 #include <blackpanther/net/InetAddress.h>
 
 #include <memory>
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <boost/any.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -22,7 +22,7 @@ namespace blackpanther{
         class EventLoop;
         class Socket;
 
-        class TcpConnection : blackpanther::noncopyable, public std::enable_shared_from_this<TcpConnection>{
+        class TcpConnection : blackpanther::Noncopyable, public std::enable_shared_from_this<TcpConnection>{
         public:
             TcpConnection(EventLoop *loop, const std::string name,
                           int sockfd,

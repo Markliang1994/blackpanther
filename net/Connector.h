@@ -6,7 +6,7 @@
 #define BLACKPANTHER_NET_CONNECTOR_H
 
 #include <blackpanther/net/InetAddress.h>
-#include <blackpanther/base/noncopyable.h>
+#include <blackpanther/base/Noncopyable.h>
 
 #include <memory>
 #include <functional>
@@ -16,7 +16,7 @@ namespace blackpanther{
         class Channel;
         class EventLoop;
 
-        class Connector : public std::enable_shared_from_this<Connector>, blackpanther::noncopyable{
+        class Connector : public std::enable_shared_from_this<Connector>, blackpanther::Noncopyable{
         public:
             typedef std::function<void(int sockfd)> NewConnectionCallback;
 

@@ -1,5 +1,7 @@
 set(net_srcs
         EventLoop.cpp
+        EventLoopThread.cpp
+        EventLoopThreadPool.cpp
         Acceptor.cpp
         Connector.cpp
         Channel.cpp
@@ -10,6 +12,9 @@ set(net_srcs
         Timer.cpp
         Poller.cpp
         Buffer.cpp
+        TcpConnection.cpp
+        TcpClient.cpp
+        TcpServer.cpp
         poller/DefaultPoller.cpp
         poller/EPollPoller.cpp
         poller/PollPoller.cpp
@@ -22,6 +27,8 @@ set(net_headers
         Acceptor.h
         Connector.h
         EventLoop.h
+        EventLoopThread.h
+        EventLoopThreadPool.h
         InetAddress.h
         Endian.h
         SocketsOps.h
@@ -29,6 +36,9 @@ set(net_headers
         TimerQueue.h
         Timer.h
         TimerId.h
+        TcpConnection.h
+        TcpClient.h
+        TcpServer.h
         Buffer.h
         Poller.h
         poller/EPollPoller.h

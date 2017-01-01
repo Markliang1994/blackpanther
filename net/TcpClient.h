@@ -13,7 +13,7 @@ namespace blackpanther{
         class Connector;
         typedef std::shared_ptr<Connector> ConnectorPtr;
 
-        class TcpClient : public noncopyable{
+        class TcpClient : public Noncopyable{
         public:
             TcpClient(EventLoop *loop, const InetAddress &serveraddr, const std::string &nameArg);
             ~TcpClient();

@@ -13,3 +13,9 @@ if(BOOSTTEST_LIBRARY)
 add_executable(buffer_unittest Buffer_unittest.cpp)
 target_link_libraries(buffer_unittest blackpanther_net boost_unit_test_framework)
 endif()
+
+add_executable(echoclient_unittest EchoClient_unittest.cpp)
+target_link_libraries(echoclient_unittest blackpanther_net)
+
+add_executable(echoserver_unittest EchoServer_unittest.cpp)
+target_link_libraries(echoserver_unittest blackpanther_net)

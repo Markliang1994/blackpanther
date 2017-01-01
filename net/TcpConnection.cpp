@@ -197,6 +197,14 @@ void TcpConnection::startRead() {
     loop_->runInLoop(std::bind(&TcpConnection::startReadInLoop, this));
 }
 
+void TcpConnection::startReadInLoop() {
+    loop_->assertInLoopThread();
+    if(!reading_ || !channel_->isReading()){
+        channel_->enableReading();
+        reading_ = true;
+    }
+}
+
 void TcpConnection::stopReadInLoop() {
     loop_->assertInLoopThread();
     if(reading_ || channel_->isReading()){
