@@ -134,6 +134,7 @@ void Connector::handleWrite() {
     if(state_ == kConnecting){
         int sockfd = removeAndResetChannel();
         int err = sockets::getSocketError(sockfd);
+        printf("The Error is : %d\n", err);
         if(err){
             LOG_WARN << "Connector::handleWrite - SO_ERROR = " << err << " " << strerror_tl(err);
             retry(sockfd);

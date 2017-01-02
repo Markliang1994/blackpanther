@@ -1,20 +1,88 @@
 //
 // Created by mark on 1/1/17.
 //
-#include <blackpanther/net/EventLoop.h>
 #include <blackpanther/net/TcpServer.h>
+
+#include <blackpanther/base/Logging.h>
+#include <blackpanther/base/Thread.h>
+#include <blackpanther/net/EventLoop.h>
 #include <blackpanther/net/InetAddress.h>
-#include <blackpanther/net/EventLoopThread.h>
+
+#include <functional>
+#include <utility>
+
+#include <stdio.h>
+#include <unistd.h>
 
 using namespace blackpanther;
 using namespace blackpanther::net;
 
-int main(void){
-    EventLoop *loop1;
-    EventLoopThread elp1;
-    loop1 = elp1.startLoop();
-    InetAddress localaddr("127.0.0.1", 1994);
-    TcpServer server1(loop1, localaddr, "server1");
-    server1.start();
+int numThreads = 0;
+
+class EchoServer
+{
+public:
+    EchoServer(EventLoop* loop, const InetAddress& listenAddr)
+            : loop_(loop),
+              server_(loop, listenAddr, "EchoServer")
+    {
+        server_.setConnectionCallback(std::bind(&EchoServer::onConnection, this, _1));
+        server_.setMessageCallback(
+                std::bind(&EchoServer::onMessage, this, _1, _2, _3));
+        server_.setThreadNum(numThreads);
+    }
+
+    void start()
+    {
+        server_.start();
+    }
+    // void stop();
+
+private:
+    void onConnection(const TcpConnectionPtr& conn)
+    {
+        LOG_TRACE << conn->peerAddress().toIpPort() << " -> "
+                  << conn->localAddress().toIpPort() << " is "
+                  << (conn->connected() ? "UP" : "DOWN");
+        LOG_INFO << conn->getTcpInfoString();
+
+        conn->send("hello\n");
+    }
+
+    void onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp time)
+    {
+        std::string msg(buf->retrieveAllAsString());
+        LOG_INFO << conn->name() << " recv " << msg.size() << " bytes at " << time.toString();
+        if (msg == "exit\n")
+        {
+            conn->send("bye\n");
+            conn->shutdown();
+        }
+        if (msg == "quit\n")
+        {
+            loop_->quit();
+        }
+        conn->send(msg);
+    }
+
+    EventLoop* loop_;
+    TcpServer server_;
+};
+
+int main(int argc, char* argv[])
+{
+    LOG_INFO << "pid = " << getpid() << ", tid = " << CurrentThread::tid();
+    LOG_INFO << "sizeof TcpConnection = " << sizeof(TcpConnection);
+    if (argc > 1)
+    {
+        numThreads = atoi(argv[1]);
+    }
+    EventLoop loop;
+    InetAddress listenAddr("127.0.0.1", 1999);
+    EchoServer server(&loop, listenAddr);
+
+    server.start();
+    loop.loop();
     return 0;
 }
+

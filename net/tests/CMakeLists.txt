@@ -19,3 +19,6 @@ target_link_libraries(echoclient_unittest blackpanther_net)
 
 add_executable(echoserver_unittest EchoServer_unittest.cpp)
 target_link_libraries(echoserver_unittest blackpanther_net)
+
+add_executable(eventfd_test eventfd_test.cpp)
+target_link_libraries(eventfd_test blackpanther_net)

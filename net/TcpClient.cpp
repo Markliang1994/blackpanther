@@ -115,7 +115,7 @@ void TcpClient::removeConnection(const TcpConnectionPtr &conn) {
     loop_->assertInLoopThread();
     assert(loop_ = conn->getLoop());
 
-    {
+   {
         MutexLockGuard lock(mutex_);
         assert(connection_ == conn);
         connection_.reset();
