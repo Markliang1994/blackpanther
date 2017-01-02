@@ -35,7 +35,7 @@ TcpClient::TcpClient(EventLoop *loop, const InetAddress &serveraddr, const std::
               connect_(true),
               nextConnId_(1){
             connector_->setNewConnectionCallback(std::bind(&TcpClient::newConnection, this, _1));
-            LOG_INFO << "TcpClient::~TcpClient[" << name_ << "] - connector " << getPointer(connector_);
+            LOG_INFO << "TcpClient::TcpClient[" << name_ << "] - connector " << getPointer(connector_);
 }
 
 TcpClient::~TcpClient() {
