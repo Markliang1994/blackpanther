@@ -30,7 +30,7 @@ target_link_libraries(date_unittest blackpanther_base)
 
 if(BOOSTTEST_LIBRARY)
 add_executable(logstream_test LogStream_test.cpp)
-target_link_libraries(logstream_test blackpanther_base)
+target_link_libraries(logstream_test blackpanther_base boost_unit_test_framework)
 endif()
 
 add_executable(logfile_test LogFile_test.cpp)

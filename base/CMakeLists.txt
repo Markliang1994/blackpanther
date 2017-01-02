@@ -1,0 +1,39 @@
+set(base_SRCS
+        Condition.cpp
+        CountDownLatch.cpp
+        Date.cpp
+        Exception.cpp
+        FileUtil.cpp
+        LogFile.cpp
+        Logging.cpp
+        LogStream.cpp
+        ProcessInfo.cpp
+        Thread.cpp
+        ThreadPool.cpp
+        Timestamp.cpp
+        TimeZone.cpp)
+
+add_library(blackpanther_base ${base_SRCS})
+
+set(base_HEADERS
+        Atomic.h
+        BlockingQueue.h
+        BoundedBlockingQueue.h
+        Condition.h
+        CountDownLatch.h
+        CurrentThread.h
+        Date.h
+        Exception.h
+        FileUtil.h
+        LogFile.h
+        Logging.h
+        LogStream.h
+        Mutex.h
+        Noncopyable.h
+        ProcessInfo.h
+        Singleton.h
+        Thread.h
+        ThreadPool.h
+        Timestamp.h
+        TimeZone.h
+        WeakCallback.h)
