@@ -52,10 +52,10 @@ const struct sockaddr_in6* sockets::sockaddr_in6_cast(const struct sockaddr *add
 }
 
 int sockets::createNonblockingOrDie(sa_family_t family) {
-    int sockefd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
-    if(sockefd < 0)
+    int sockfd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
+    if(sockfd < 0)
         LOG_SYSFATAL << "sockets::createNonblockingOrDie";
-    return sockefd;
+    return sockfd;
 }
 
 void sockets::bindOrDie(int sockfd, const struct sockaddr *addr) {

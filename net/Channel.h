@@ -45,7 +45,7 @@ namespace blackpanther{
 
             void enableReading() { events_ |= kReadEvent; update(); }
             void disableReading() { events_ &= ~kReadEvent; update(); }
-            void enableWritting() { events_ |= kWriteEvent; update(); }
+            void enableWriting() { events_ |= kWriteEvent; update(); }
             void disableWritting() { events_ &= ~kWriteEvent; update(); }
             void disableAll() { events_ = kNoneEvent; update(); }
             bool isWritting() const { return events_ & kWriteEvent; }

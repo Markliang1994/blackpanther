@@ -1,4 +1,31 @@
-//
-// Created by mark on 1/2/17.
-//
+// TcpClient destructs when TcpConnection is connected but unique.
 
+#include <blackpanther/base/Logging.h>
+#include <blackpanther/base/Exception.h>
+#include <blackpanther/base/Thread.h>
+#include <blackpanther/net/EventLoop.h>
+#include <blackpanther/net/TcpClient.h>
+#include <functional>
+
+using namespace blackpanther;
+using namespace blackpanther::net;
+
+void threadFunc(EventLoop* loop)
+{
+    InetAddress serverAddr("127.0.0.1", 1234); // should succeed
+    TcpClient client(loop, serverAddr, "TcpClient");
+    client.connect();
+    CurrentThread::sleepUsec(1000*1000);
+    // client destructs when connected.
+}
+
+int main(int argc, char* argv[])
+{
+    Logger::setLogLevel(Logger::DEBUG);
+
+    EventLoop loop;
+    loop.runAfter(3.0, std::bind(&EventLoop::quit, &loop));
+    Thread thr(std::bind(threadFunc, &loop));
+    thr.start();
+    loop.loop();
+}

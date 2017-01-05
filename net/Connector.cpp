@@ -112,7 +112,7 @@ void Connector::connecting(int sockfd) {
     channel_->setWriteCallback(std::bind(&Connector::handleWrite, this));
     channel_->setErrorCallback(std::bind(&Connector::handleError, this));
 
-    channel_->enableWritting();
+    channel_->enableWriting();
 }
 
 int Connector::removeAndResetChannel() {
@@ -130,7 +130,6 @@ void Connector::resetChannel() {
 
 void Connector::handleWrite() {
     LOG_TRACE << "Connector::handleWrite " << state_;
-
     if(state_ == kConnecting){
         int sockfd = removeAndResetChannel();
         int err = sockets::getSocketError(sockfd);
@@ -173,7 +172,7 @@ void Connector::retry(int sockfd) {
     setState(kDisconnected);
     if(connect_){
         LOG_INFO << "Connector::retry - Retry connecting to " << serverAddr_.toIpPort()
-                                                              << " in " << retryDelayMs_ << " milliseconds. ";
+                 << " in " << retryDelayMs_ << " milliseconds. ";
         loop_->runAfter(retryDelayMs_/1000.0, std::bind(&Connector::startInLoop, shared_from_this()));
         retryDelayMs_ = std::min(retryDelayMs_*2, kMaxRetryDelayMs);
     }

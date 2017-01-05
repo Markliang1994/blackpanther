@@ -135,7 +135,7 @@ void TcpConnection::sendInLoop(const void *data, size_t len){
         }
         outputBuffer_.append(static_cast<const char*>(data)+nwrote, remaining);
         if(!channel_->isWritting()){
-            channel_->enableWritting();
+            channel_->enableWriting();
         }
     }
 }

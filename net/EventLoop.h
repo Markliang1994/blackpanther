@@ -10,6 +10,7 @@
 #include <memory>
 #include <boost/any.hpp>
 
+#include <blackpanther/base/Logging.h>
 #include <blackpanther/base/Mutex.h>
 #include <blackpanther/base/CurrentThread.h>
 #include <blackpanther/base/Timestamp.h>
@@ -56,7 +57,8 @@ namespace blackpanther{
 
             TimerId runAfter(double delay, const TimerCallback &cb);
 
-            TimerId runEvery(double interval, const TimerCallback &&cb);
+            TimerId runEvery(double interval, const TimerCallback &cb);
+            void cancel(TimerId timerId);
             // Interval
             void wakeup();
             void updateChannel(Channel *channel);
@@ -67,7 +69,8 @@ namespace blackpanther{
                 if(!isInLoopThread())
                     abortNotInLoopThread();
             }
-            bool isInLoopThread() const { return threadId_ == CurrentThread::tid(); }
+            bool isInLoopThread() const {
+                return threadId_ == CurrentThread::tid(); }
 
             void setContext(const boost::any &context){
                 context_ = context;

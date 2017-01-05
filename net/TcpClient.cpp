@@ -1,12 +1,13 @@
 //
 // Created by mark on 16-12-20.
 //
-#include <blackpanther/net/TcpClient.h>
-
 #include <blackpanther/base/Logging.h>
+#include <blackpanther/base/Exception.h>
+
 #include <blackpanther/net/Connector.h>
 #include <blackpanther/net/EventLoop.h>
 #include <blackpanther/net/SocketsOps.h>
+#include <blackpanther/net/TcpClient.h>
 
 using namespace blackpanther;
 using namespace blackpanther::net;
@@ -26,16 +27,16 @@ namespace blackpanther{
 }
 
 TcpClient::TcpClient(EventLoop *loop, const InetAddress &serveraddr, const std::string &nameArg)
-            : loop_(CHECK_NOTNULL(loop)),
-              connector_(new Connector(loop, serveraddr)),
-              name_(nameArg),
-              connectionCallback_(defaultConnectionCallback),
-              messageCallback_(defaultMessageCallback),
-              retry_(false),
-              connect_(true),
-              nextConnId_(1){
-            connector_->setNewConnectionCallback(std::bind(&TcpClient::newConnection, this, _1));
-            LOG_INFO << "TcpClient::TcpClient[" << name_ << "] - connector " << getPointer(connector_);
+        : loop_(CHECK_NOTNULL(loop)),
+          connector_(new Connector(loop, serveraddr)),
+          name_(nameArg),
+          connectionCallback_(defaultConnectionCallback),
+          messageCallback_(defaultMessageCallback),
+          retry_(false),
+          connect_(true),
+          nextConnId_(1){
+    connector_->setNewConnectionCallback(std::bind(&TcpClient::newConnection, this, _1));
+    LOG_INFO << "TcpClient::TcpClient[" << name_ << "] - connector " << getPointer(connector_);
 }
 
 TcpClient::~TcpClient() {
@@ -63,7 +64,6 @@ TcpClient::~TcpClient() {
 
 void TcpClient::connect() {
     LOG_INFO << "TcpClient::connect[" << name_ << "] - connecting to "
-                                               << connector_->serverAddress().toIpPort();
     connect_ = true;
     connector_->start();
 }
@@ -115,7 +115,7 @@ void TcpClient::removeConnection(const TcpConnectionPtr &conn) {
     loop_->assertInLoopThread();
     assert(loop_ = conn->getLoop());
 
-   {
+    {
         MutexLockGuard lock(mutex_);
         assert(connection_ == conn);
         connection_.reset();
@@ -123,7 +123,7 @@ void TcpClient::removeConnection(const TcpConnectionPtr &conn) {
     loop_->queueInLoop(std::bind(&TcpConnection::connectDestroyed, conn));
     if(retry() && connect_){
         LOG_INFO << "TcpClient::connect[" << name_ << "] - Reconnecting to "
-                                                   << connector_->serverAddress().toIpPort();
+                 << connector_->serverAddress().toIpPort();
         connector_->restart();
     }
 }
