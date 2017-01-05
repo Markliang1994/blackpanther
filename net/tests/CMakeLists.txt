@@ -22,3 +22,9 @@ target_link_libraries(echoserver_unittest blackpanther_net)
 
 add_executable(eventfd_test eventfd_test.cpp)
 target_link_libraries(eventfd_test blackpanther_net)
+
+add_executable(tcpclient_test1 TcpClient_test1.cpp)
+target_link_libraries(tcpclient_test1 blackpanther_net)
+
+add_executable(tcpclient_test2 TcpClient_test2.cpp)
+target_link_libraries(tcpclient_test2 blackpanther_net)
